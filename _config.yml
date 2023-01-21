@@ -5,7 +5,7 @@ header-img: img/home-bg-art.jpg
 email: 1961154734@qq.com
 description: "@HG 的个人博客"
 keyword: "HG,Java,SSM,Spring,后端,HG的博客,HG Blog, 博客"
-url: "https://huangxuan.me" # your host, for absolute URL
+url: "https://www.hglll.top" # your host, for absolute URL
 baseurl: "" 
 future: true
 highlighter: rouge
@@ -56,7 +56,7 @@ ga_domain: www.hglll.top
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "多喜乐,常安宁." 
+sidebar-about-description: "年轻是我们唯一拥有权利去编织梦想的时光" 
 sidebar-avatar: /img/avatar-wb.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 # Featured Tags
@@ -64,7 +64,7 @@ featured-tags: true # whether or not using Feature-Tags
 featured-condition-size: 1 # A tag will be featured if the size of it is more than this condition value
 
 # Progressive Web Apps
-chrome-tab-theme-color: "#66D1C7"
+chrome-tab-theme-color: "#000000"
 service-worker: true
 
 # MathJax rendering for layout:page (e.g. post preview)

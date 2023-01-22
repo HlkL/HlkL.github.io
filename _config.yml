@@ -3,8 +3,8 @@ title: HG Blog
 SEOTitle: HG
 header-img: img/home-bg-art.jpg
 email: 1961154734@qq.com
-description: "@HG 的个人博客"
-keyword: "HG,Java,SSM,Spring,后端,HG的博客,HG Blog, 博客"
+description: "HG 的个人博客"
+keyword: "HG,Java,SSM,Spring,后端,HG的博客,HG Blog"
 url: "https://www.hglll.top" # your host, for absolute URL
 baseurl: "" 
 future: true

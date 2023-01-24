@@ -4,7 +4,6 @@ title:      "MP学习笔记"
 date:       2022-8-7 00:00:00
 author:     "HG"
 tags:
-    - MybatisPlus
     - SSM
     - 持久化
 ---

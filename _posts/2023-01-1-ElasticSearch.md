@@ -2,7 +2,6 @@
 layout:     post
 title:      "分布式搜索引擎"
 author:     "HG"
-header-img: "img/bg/post-elasticsearch.jpg"
 tags:
     - 分布式
     - 微服务

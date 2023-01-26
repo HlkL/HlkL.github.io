@@ -5,7 +5,7 @@ header-img: img/home-bg-art.jpg
 email: 1961154734@qq.com
 description: "HG 的个人博客"
 keyword: "HG,Java,SSM,Spring,后端,HG的博客,HG Blog"
-url: "https://www.hglll.top" # your host, for absolute URL
+url: "hglll.top" # your host, for absolute URL
 baseurl: "" 
 future: true
 highlighter: rouge
@@ -49,10 +49,6 @@ disqus_username: HG
 
 # Netease settings
 netease_comment: false
-
-# baidu Analytics
-ga_track_id: '045743b5d09fa3bbf0cb5606c19a3e4d'
-ga_domain: www.hglll.top
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.

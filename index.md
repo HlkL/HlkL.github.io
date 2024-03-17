@@ -10,7 +10,7 @@ hero:
     alt: 背景图片
   actions:
     - theme: brand
-      text: Started
+      text: 开始
       link: /started.md
     # - theme: alt
     #   text: 没想好

@@ -9,7 +9,6 @@ export default defineConfig({
   markdown: {
     lineNumbers: true,
     math: true,
-    lazyLoading: true
   },
 
   themeConfig: {
@@ -18,11 +17,13 @@ export default defineConfig({
     nav: [
       // { text: 'Home', link: '/' },
       {
-        text: 'Docs', items: [
-          { text: 'Languag', link: '/languag/' },
-          { text: 'Backend', link: '/backend/' },
-          { text: 'Frontend', link: '/frontend/' },
-          { text: 'Other', link: '/other/' },
+        text: '文档', items: [
+          { text: 'Java', link: '/java/' },
+          { text: '前端', link: '/frontend/' },
+          { text: '框架', link: '/framework/' },
+          { text: 'DevOps', link: '/devops/' },
+          { text: '中间件', link: '/center/' },
+          { text: '其他', link: '/other/' },
         ]
       },
     ],
@@ -39,10 +40,12 @@ export default defineConfig({
 
     //自动配置左侧边栏
     sidebar: {
-      "/languag": set_sidebar("/languag"),
-      "/backend": set_sidebar("/backend"),
-      "/frontend": set_sidebar("/frontend"),
-      "/other": set_sidebar("/other"),
+      "/java/": set_sidebar("/java"),
+      "/frontend/": set_sidebar("/frontend"),
+      "/framework/": set_sidebar("/framework"),
+      "/devops/": set_sidebar("/devops"),
+      "/center/": set_sidebar("/center"),
+      "/other/": set_sidebar("/other"),
     },
 
     // socialLinks: [
@@ -60,9 +63,6 @@ export default defineConfig({
     },
   },
 
-  mermaid: {
-    // refer https://mermaid.js.org/config/setup/modules/mermaidAPI.html#mermaidapi-configuration-defaults for options
-  },
   mermaidPlugin: {
     class: "mermaid my-class", // set additional css classes for parent container
   },

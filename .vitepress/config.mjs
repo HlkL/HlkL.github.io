@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress'
-import { set_sidebar } from "./utils/auto_sidebar.mjs";	// 改成自己的路径
+import { set_sidebar } from "./utils/auto_sidebar.mjs";
 
 export default defineConfig({
   title: "学习笔记",
@@ -61,10 +61,6 @@ export default defineConfig({
     search: {
       provider: "local"
     },
-  },
-
-  mermaidPlugin: {
-    class: "mermaid my-class", // set additional css classes for parent container
   },
 
 })

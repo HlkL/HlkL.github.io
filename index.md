@@ -2,8 +2,8 @@
 layout: home
 
 hero:
-  name: "HG"
-  text: 努力是会上瘾的，特别是尝到甜头之后
+  name: "文档杂识库"
+  # text: 以后的事谁知道呢
   tagline: 年轻是我们唯一拥有权利去编织梦想的时光
   image:
     src: /background.png

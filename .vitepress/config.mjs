@@ -22,7 +22,7 @@ export default defineConfig({
           { text: '前端', link: '/frontend/' },
           { text: '框架', link: '/framework/' },
           { text: 'DevOps', link: '/devops/' },
-          { text: '中间件', link: '/center/' },
+          { text: '中间件', link: '/middleware/' },
           { text: '其他', link: '/other/' },
         ]
       },
@@ -44,7 +44,7 @@ export default defineConfig({
       "/frontend/": set_sidebar("/frontend"),
       "/framework/": set_sidebar("/framework"),
       "/devops/": set_sidebar("/devops"),
-      "/center/": set_sidebar("/center"),
+      "/middleware/": set_sidebar("/middleware"),
       "/other/": set_sidebar("/other"),
     },
 

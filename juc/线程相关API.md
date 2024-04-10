@@ -201,7 +201,7 @@ System.out.println("unpark...");//和上一个unpark同时执行
 
 **两阶段终止模式图示：** 
 
-[![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1712673954-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432de4b8a4e998b6e6aeb5e7bb88e6ada2e6a8a1e5bc8f2e706e67.png)](https://camo.githubusercontent.com/91712075dc0075b79a856daf02237247f7f70090a3bed7d484f3821a0ee4d258/68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432de4b8a4e998b6e6aeb5e7bb88e6ada2e6a8a1e5bc8f2e706e67)
+![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1712673954-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432de4b8a4e998b6e6aeb5e7bb88e6ada2e6a8a1e5bc8f2e706e67.png)
 
 **<font color="green">示例：</font>** 
 
@@ -246,8 +246,6 @@ class TwoPhaseTermination {
     }
 }
 ```
-
-
 
 ### daemon
 
@@ -352,7 +350,7 @@ Java 提供了线程优先级的机制，优先级会提示（hint）调度器�
 | Timed Waiting （限期等待） | 有几个方法有超时参数，调用将进入 Timed Waiting 状态，这一状态将一直保持到超时期满或者接收到唤醒通知。带有超时参数的常用方法有 Thread.sleep 、Object.wait |
 |     Teminated（结束）      | run 方法正常退出而死亡，或者因为没有捕获的异常终止了 run 方法而死亡 |
 
-[![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1712673954-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d254537254241254246254537254138253842362545372541372538442545372538412542362545362538302538312e706e67.png)](https://camo.githubusercontent.com/868231c6c95e56b49a197ead6cffaf8fe76c40a316248cfbeeb54227131c7ba5/68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d254537254241254246254537254138253842362545372541372538442545372538412542362545362538302538312e706e67)
+![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1712673954-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d254537254241254246254537254138253842362545372541372538442545372538412542362545362538302538312e706e67.png)
 
 - NEW → RUNNABLE：当调用 t.start() 方法时，由 NEW → RUNNABLE
 - RUNNABLE <--> WAITING：

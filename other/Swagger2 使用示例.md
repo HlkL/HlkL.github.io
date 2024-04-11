@@ -2,7 +2,7 @@
 
 #### Gradle 依赖引入
 
-```json
+```groovy
 api 'io.springfox:springfox-swagger2:2.7.0'
 api 'io.springfox:springfox-swagger-ui:2.7.0'
 ```

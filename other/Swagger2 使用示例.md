@@ -54,8 +54,6 @@ public class SwaggerConfig {
 }
 ```
 
-访问url:  http://localhost:8080/swagger-ui.html
-
 #### 常用注解
 
 ```java

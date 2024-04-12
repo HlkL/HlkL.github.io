@@ -23,7 +23,7 @@ export default defineConfig({
           { text: '框架', link: '/framework/' },
           { text: 'DevOps', link: '/devops/' },
           { text: '中间件', link: '/middleware/' },
-          { text: 'Juc', link: '/juc/' },
+          { text: 'JUC', link: '/juc/' },
           { text: '其他', link: '/other/' },
         ]
       },

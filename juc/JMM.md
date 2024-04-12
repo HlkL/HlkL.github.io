@@ -36,8 +36,6 @@
 - `store`：作用于工作内存，把工作内存的一个变量的值传送到主内存中
 - `write`：作用于主内存，在 store 之后执行，把 store 得到的值放入主内存的变量中
 
-[参考文章](https://github.com/CyC2018/CS-Notes/blob/master/notes/Java 并发.md)
-
 ## 三大特性
 
 ### 可见性

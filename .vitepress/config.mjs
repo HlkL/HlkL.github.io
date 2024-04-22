@@ -1,17 +1,23 @@
-import { defineConfig } from 'vitepress'
+import { withMermaid } from "vitepress-plugin-mermaid"
 import { set_sidebar } from "./utils/auto_sidebar.mjs";
 
-export default defineConfig({
+export default withMermaid({
   title: "学习笔记",
   // title: "Knowledge Planet",
   description: "年轻是我们唯一拥有权利去编织梦想的时光",
-  head: [["link", { rel: "icon", href: "/logo.png" }]],
+  head: [
+    ["link", { rel: "icon", href: "/logo.png" }],
+    ['script', { type: "text/javascript", src: '/js/anime.min.js' }],
+    ['script', { type: "text/javascript", src: '/js/fireworks.js' }],
+  ],
   lastUpdated: true,
   markdown: {
     // lineNumbers: true,
     math: true,
-    // 默认禁用图片懒加载
-    lazyLoading: true
+    image: {
+      // 默认禁用图片懒加载
+      lazyLoading: true
+    }
   },
 
   themeConfig: {
@@ -67,5 +73,16 @@ export default defineConfig({
       provider: "local"
     },
   },
+
+  // your existing vitepress config...
+  // optionally, you can pass MermaidConfig
+  mermaid: {
+    // refer https://mermaid.js.org/config/setup/modules/mermaidAPI.html#mermaidapi-configuration-defaults for options
+  },
+  // optionally set additional config for plugin itself with MermaidPluginConfig
+  mermaidPlugin: {
+    class: "mermaid my-class", // set additional css classes for parent container 
+  },
+
 
 })

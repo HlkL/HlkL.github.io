@@ -17,10 +17,25 @@ hero:
     #   link: /
 
 features:
-  - title: 🌅 实践检验真理
+  - icon: 🚀
+      # src: 
+      # dark: /dark-feature-icon.svg        #黑色主题下的图标
+      # light: /light-feature-icon.svg      #白色主题下的图标
+    title: 实践检验真理
     details: 
-  - title: 🧑‍💻 站在巨人的肩膀上
-    details: 
-  - title: 📝 好记性不如烂笔头
-    details: 
+    link: ./java/index.md
+    # linkText: java
+  - icon: 🌈
+    title: 站在巨人肩膀上
+    link: ./juc/index.md
+  - icon: 📝
+    title: 好记性不如烂笔头
 ---
+
+```java
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("hello, world!"); // [!code focus]
+    }
+}
+```

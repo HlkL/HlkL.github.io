@@ -3,12 +3,15 @@ import { set_sidebar } from "./utils/auto_sidebar.mjs";
 
 export default defineConfig({
   title: "学习笔记",
+  // title: "Knowledge Planet",
   description: "年轻是我们唯一拥有权利去编织梦想的时光",
   head: [["link", { rel: "icon", href: "/logo.png" }]],
   lastUpdated: true,
   markdown: {
-    lineNumbers: true,
+    // lineNumbers: true,
     math: true,
+    // 默认禁用图片懒加载
+    lazyLoading: true
   },
 
   themeConfig: {

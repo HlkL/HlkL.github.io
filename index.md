@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "文档杂识库"
   # text: 以后的事谁知道呢
-  tagline: 年轻是我们唯一拥有权利去编织梦想的时光
+  tagline: 愿期待如期而至
   image:
     src: /background.png
     alt: 背景图片

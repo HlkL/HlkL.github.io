@@ -10,8 +10,8 @@ hero:
     alt: 背景图片
   actions:
     - theme: brand
-      text: 开始
-      link: /started.md
+      text: GeminiAI
+      link: https://ai.hougen.fun
     # - theme: alt
     #   text: 没想好
     #   link: /

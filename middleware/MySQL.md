@@ -730,19 +730,19 @@ CREATE INDEX idx_example ON table_name (column1, column2, column3);
 1. 有效利用索引的查询：
 
     - 完全匹配最左前缀：
-        
+      
         ```sql
         SELECT * FROM table_name WHERE column1 = 'value1';
         ```
         
     - 匹配最左前缀的前两列：
-        
+      
         ```sql
         SELECT * FROM table_name WHERE column1 = 'value1' AND column2 = 'value2';
         ```
         
     - 匹配最左前缀的前三列：
-        
+      
         ```sql
         SELECT * FROM table_name WHERE column1 = 'value1' AND column2 = 'value2' AND column3 = 'value3';
         ```
@@ -758,3 +758,12 @@ CREATE INDEX idx_example ON table_name (column1, column2, column3);
         ```sql
         SELECT * FROM table_name WHERE column1 = 'value1' AND column3 = 'value3';
         ```
+
+
+
+## 锁
+
+参考博文：
+
+1. [史上最全 MySQL 各种锁详解](https://xie.infoq.cn/article/202314f914205daccf0410443)
+2. [彻底搞懂 MySQL 中的锁机制](https://www.cnblogs.com/better-farther-world2099/articles/14955475.html)

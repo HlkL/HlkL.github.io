@@ -6,7 +6,7 @@ hero:
   # text: 以后的事谁知道呢
   tagline: 愿期待如期而至
   image:
-    src: /background.png
+    src: https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1718886039-background.png
     alt: 背景图片
   actions:
     - theme: brand

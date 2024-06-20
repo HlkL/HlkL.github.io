@@ -26,8 +26,9 @@ export default withMermaid({
     nav: [
       // { text: 'Home', link: '/' },
       {
-        text: '文档', items: [
+        text: 'docs', items: [
           { text: 'Java', link: '/java/' },
+          { text: 'Golang', link: '/golang/' },
           { text: '前端', link: '/frontend/' },
           { text: '框架', link: '/framework/' },
           { text: 'DevOps', link: '/devops/' },
@@ -51,6 +52,7 @@ export default withMermaid({
     //自动配置左侧边栏
     sidebar: {
       "/java/": set_sidebar("/java"),
+      "/golang/": set_sidebar("/golang"),
       "/frontend/": set_sidebar("/frontend"),
       "/framework/": set_sidebar("/framework"),
       "/devops/": set_sidebar("/devops"),

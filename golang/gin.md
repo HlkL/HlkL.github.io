@@ -547,7 +547,7 @@ var secrets = gin.H{
 
 # server push
 
-:::detail  前端代码
+::: details  前端代码
 
 ```html
 <!DOCTYPE html>

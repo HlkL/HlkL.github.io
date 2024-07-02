@@ -270,13 +270,13 @@ docker volume [COMMAND]
 >    ```dockerfile
 >    # 指定基础镜像
 >    FROM java:8-alpine
->   
+>      
 >    # 拷贝jdk和java项目的包
 >    COPY ./docker-demo.jar /tmp/java.jar
->   
+>      
 >    # 暴露端口
 >    EXPOSE 8090
->   
+>      
 >    # 入口，java项目的启动命令
 >    ENTRYPOINT java -jar /tmp/java.jar
 >    ```
@@ -480,3 +480,238 @@ systemctl restart docker
    ```sh
    docker pull 43.139.96.22:80/nginx:1.0 
    ```
+
+
+
+# <font color=red>**24年6月大陆docker封禁**</font>
+
+**使用阿里云搭建私有仓库：** https://github.com/HlkL/docker_image_pusher
+
+**使用 clouadflare 搭建docker镜像加速源**
+
+1. 购买[域名](https://wanwang.aliyun.com/domain)
+
+2. 注册 [cloudflare](https://dash.cloudflare.com/) 账号
+
+3. 打开cloud flare，新建站点，选择免费。 注册后绑定一个域名，这个域名的DNS需要设置为cloudflare的才能绑定成功。
+
+   <img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1719921636-image-20240702200036012.png" alt="image-20240702200036012" style="zoom:33%;" />
+
+4. 修改域名 DNS 服务器
+
+   <img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1719921933-image-20240702200533547.png" alt="image-20240702200533547" style="zoom:50%;" />
+
+5. 创建 Workers
+
+   <img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1719922157-image-20240702200917437.png" alt="image-20240702200917437" style="zoom: 33%;" />
+
+6. 创建完成后编辑代码
+
+   ![image-20240702201153320](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1719922313-image-20240702201153320.png)
+
+7. 配置展示页，创建 index.html
+
+   ::: details 查看代码
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="zh-CN">
+   
+   <head>
+       <meta charset="UTF-8">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>镜像使用说明</title>
+       <style>
+           body {
+               font-family: Arial, sans-serif;
+               background-color: #f4f4f4;
+               color: #333;
+           }
+   
+           .container {
+               max-width: 800px;
+               margin: 0 auto;
+               background-color: #f8f4f4;
+               padding: 20px;
+               border-radius: 10px;
+               box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           }
+   
+           h1 {
+               text-align: center;
+               color: #5a67d8;
+           }
+   
+           .section {
+               margin-bottom: 20px;
+           }
+   
+           .code-container {
+               background-color: #080808;
+               color: #a59f9f;
+               padding: 10px;
+               border-radius: 5px;
+               /* overflow-x: auto; */
+               position: relative;
+               overflow: hidden;
+           }
+   
+           pre {
+               max-height: 85px;
+               overflow: auto;
+               margin: 8px 0 6px 0;
+   
+               &::-webkit-scrollbar {
+                   display: none;
+               }
+           }
+   
+           code {
+               color: #7a8688;
+           }
+   
+           .command {
+               margin-bottom: 10px;
+           }
+   
+           .copy-button {
+               position: absolute;
+               top: 10px;
+               right: 10px;
+               background-color: #0f0f0f;
+               color: #929191;
+               border: none;
+               padding: 5px 10px;
+               border-radius: 5px;
+               cursor: pointer;
+           }
+   
+           code {
+               max-height: 20px;
+               overflow: auto;
+           }
+       </style>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+   </head>
+   
+   <body>
+       <div class="container">
+           <h1>镜像使用说明</h1>
+           <div class="section">
+               <h2>设置 registry mirror</h2>
+               <p>为了加速 Docker 镜像拉取，你可以使用以下命令设置 registry mirror:</p>
+               <div class="code-container">
+                   <button class="copy-button" data-clipboard-target="#registry-config">复制</button>
+                   <pre>
+   <code id="registry-config">sudo tee /etc/docker/daemon.json &lt;&lt;EOF
+   {
+       "registry-mirrors": ["https://{{host}}"]
+   }
+   EOF</code></pre>
+               </div>
+               <div class="command">
+                   <p>配置完后需要重启 Docker 服务</p>
+                   <div class="code-container">
+                       <button class="copy-button" data-clipboard-target="#docker">复制</button>
+                       <pre><code id="docker">sudo systemctl restart docker</code></pre>
+                       </pre>
+                   </div>
+               </div>
+   
+               <div class="section">
+                   <h2>拉取不同镜像仓库的镜像</h2>
+   
+                   <div class="command">
+               
+                       <div class="command">
+   
+                           <div class="command">
+                               <p>拉取 Docker 官方镜像</p>
+                               <div class="code-container">
+                                   <button class="copy-button" data-clipboard-target="#docker-official">复制</button>
+                                   <pre><code id="docker-official">docker pull docker://library/nginx:latest</code></pre>
+                               </div>
+                           </div>
+   
+                           <div class="command">
+                               <p>拉取 GitHub 容器镜像</p>
+                               <div class="code-container">
+                                   <button class="copy-button" data-clipboard-target="#github-linter">复制</button>
+                                   <pre><code id="github-linter">docker pull ghcr.io/github/super-linter:latest</code></pre>
+                               </div>
+                           </div>
+   
+                           <div class="section">
+                               <h2>其他说明</h2>
+                               <p>为了避免 Worker 用量耗尽，你可以手动 pull 镜像然后 re-tag 后 push 至本地镜像仓库。</p>
+                           </div>
+   
+                       </div>
+   
+                       <script>
+                           new ClipboardJS('.copy-button');
+                       </script>
+                   </div>
+               </div>
+   </body>
+   
+   </html>
+   ```
+
+   :::
+
+   ![image-20240702201600806](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1719922560-image-20240702201600806.png)
+
+8. 配置 Workers.js
+
+   ::: details 查看代码
+
+   ```js
+   import HTML from './index.html';
+   export default {
+       async fetch(request) {
+           const url = new URL(request.url);
+           const path = url.pathname;
+           const originalHost = request.headers.get("host");
+           const registryHost = "registry-1.docker.io";
+           if (path.startsWith("/v2/")) {
+           const headers = new Headers(request.headers);
+           headers.set("host", registryHost);
+           const registryUrl = `https://${registryHost}${path}`;
+           const registryRequest = new Request(registryUrl, {
+               method: request.method,
+               headers: headers,
+               body: request.body,
+               redirect: "follow",
+           });
+           const registryResponse = await fetch(registryRequest);
+           console.log(registryResponse.status);
+           const responseHeaders = new Headers(registryResponse.headers);
+           responseHeaders.set("access-control-allow-origin", originalHost);
+           responseHeaders.set("access-control-allow-headers", "Authorization");
+           return new Response(registryResponse.body, {
+               status: registryResponse.status,
+               statusText: registryResponse.statusText,
+               headers: responseHeaders,
+           });
+           } else {
+           return new Response(HTML.replace(/{{host}}/g, originalHost), {
+               status: 200,
+               headers: {
+               "content-type": "text/html"
+               }
+           });
+           }
+       }
+   }
+   ```
+
+   :::
+
+   配置完成后点击部署按钮，[并访问分配的域名。](https://docker.hougen.fun)
+
+9. 自定义域名
+
+   ![image-20240702201928546](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1719922768-image-20240702201928546.png)
+

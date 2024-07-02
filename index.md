@@ -12,9 +12,9 @@ hero:
     - theme: brand
       text: GeminiAI
       link: https://ai.hougen.fun
-    # - theme: alt
-    #   text: 没想好
-    #   link: /
+    - theme: alt
+      text: Docker 镜像加速
+      link: https://docker.hougen.fun
 
 features:
   - icon: 🚀

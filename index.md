@@ -14,7 +14,7 @@ hero:
       link: https://ai.hougen.fun
     - theme: alt
       text: Docker 镜像加速
-      link: https://docker.hougen.fun
+      link: https://mirror.hougen.fun
 
 features:
   - icon: 🚀

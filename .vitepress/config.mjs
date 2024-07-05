@@ -3,10 +3,9 @@ import { set_sidebar } from "./utils/auto_sidebar.mjs";
 
 export default withMermaid({
   title: "学习笔记",
-  // title: "Knowledge Planet",
   description: "年轻是我们唯一拥有权利去编织梦想的时光",
   head: [
-    ["link", { rel: "icon", href: "/logo.png" }],
+    ["link", { rel: "icon", href: "/icon.png" }],
     ['script', { type: "text/javascript", src: '/js/anime.min.js' }],
     ['script', { type: "text/javascript", src: '/js/fireworks.js' }],
   ],
@@ -21,12 +20,12 @@ export default withMermaid({
   },
 
   themeConfig: {
-    outline: [2, 6],
-    logo: '/logo.png',
+    outline: [1, 6],
+    logo: '/icon.png',
     nav: [
       // { text: 'Home', link: '/' },
       {
-        text: 'docs', items: [
+        text: 'Docs', items: [
           { text: 'Java', link: '/java/' },
           { text: 'Golang', link: '/golang/' },
           { text: '前端', link: '/frontend/' },

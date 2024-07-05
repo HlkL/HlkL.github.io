@@ -2,12 +2,12 @@
 layout: home
 
 hero:
-  name: "文档杂识库"
-  # text: 以后的事谁知道呢
+  name: "文档杂识"
+  text: 
   tagline: 愿期待如期而至
   image:
     src: https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1718886039-background.png
-    alt: 背景图片
+    alt: 偶尔放松
   actions:
     - theme: brand
       text: GeminiAI

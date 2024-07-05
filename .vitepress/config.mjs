@@ -10,6 +10,7 @@ export default withMermaid({
     ['script', { type: "text/javascript", src: '/js/fireworks.js' }],
   ],
   lastUpdated: true,
+  lang: "zh-CN",
   markdown: {
     // lineNumbers: true,
     math: true,
@@ -71,7 +72,13 @@ export default withMermaid({
 
     // 搜索框
     search: {
-      provider: "local"
+      // provider: 'local', // 可以开启本地搜索
+      provider: "algolia",
+      options: {
+        appId: "5Y2OXI9FPK",
+        apiKey: "6f3845f9948b58905b8d490705ce962a",
+        indexName: "hgnote"
+      },
     },
   },
 

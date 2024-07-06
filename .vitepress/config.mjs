@@ -6,6 +6,7 @@ export default withMermaid({
   description: "年轻是我们唯一拥有权利去编织梦想的时光",
   head: [
     ["link", { rel: "icon", href: "/icon.png" }],
+    ["link", {rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@docsearch/css@3"}],
     ['script', { type: "text/javascript", src: '/js/anime.min.js' }],
     ['script', { type: "text/javascript", src: '/js/fireworks.js' }],
   ],
@@ -75,9 +76,9 @@ export default withMermaid({
       // provider: 'local', // 可以开启本地搜索
       provider: "algolia",
       options: {
-        appId: "5Y2OXI9FPK",
-        apiKey: "6f3845f9948b58905b8d490705ce962a",
-        indexName: "hgnote"
+        appId: "41AKMNBQQ4",
+        apiKey: "9873076cd6001ca24a681f4295fc10ed",
+        indexName: "hougen"
       },
     },
   },

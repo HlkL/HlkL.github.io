@@ -3,6 +3,7 @@
     "markdown-it-mathjax3": "^4.3.2",
     "mermaid": "^10.9.0",
     "vitepress": "^1.0.0-rc.45",
+    "gitalk": "https://github.com/LibraHeresy/gitalk.git",
     "vitepress-plugin-mermaid": "^2.0.16"
   },
   "scripts": {

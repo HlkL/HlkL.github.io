@@ -35,6 +35,10 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Install dependencies
         run: npm ci # or pnpm install / yarn install / bun install
+      - name: Setup environment variables
+      run: |
+        echo "VITE_GITALK_CLIENT_ID=${{ secrets.VITE_GITALK_CLIENT_ID }}" >> $GITHUB_ENV
+        echo "VITE_GITALK_CLIENT_SECRET=${{ secrets.VITE_GITALK_CLIENT_SECRET }}" >> $GITHUB_ENV
       - name: Build with VitePress
         run: |
           npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build

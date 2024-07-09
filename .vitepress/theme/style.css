@@ -137,3 +137,53 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/* 移除底部logo */
+.DocSearch-Logo {
+  display: none;
+}
+
+/* 背景图片优化 */
+.Layout:has(.VPHome) {
+  background: url('')
+    no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  user-select: none;
+  transition: 0.1s ease-in-out;
+}
+
+.dark .Layout:has(.VPHome) {
+  background: url('')
+    no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  user-select: none;
+  transition: 0.1s ease-in-out;
+}
+
+/* 侧边栏文字超出隐藏 */
+.VPSidebarItem .VPLink p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+/* 翻页按钮标题文字超出隐藏 */
+.VPDocFooter .pager .title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* 引用样式修改 */
+.vp-doc blockquote {
+  border-left: 0px solid #122d40;
+  border-radius: 10px;
+  background-color: var(--vp-badge-tip-bg);
+}
+
+/* gitalk */
+.gt-container .gt-header-textarea{
+  background-color: var(--vp-c-brand-dimm) !important;
+}

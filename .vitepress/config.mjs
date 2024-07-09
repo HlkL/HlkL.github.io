@@ -3,7 +3,7 @@ import { set_sidebar } from "./utils/auto_sidebar.mjs";
 
 export default withMermaid({
   title: "学习笔记",
-  description: "年轻是我们唯一拥有权利去编织梦想的时光",
+  // description: "年轻是我们唯一拥有权利去编织梦想的时光",
   head: [
     ["link", { rel: "icon", href: "/icon.png" }],
     ["link", {rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@docsearch/css@3"}],

@@ -9,6 +9,7 @@
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "init:comment": "node ./.vitepress/utils/auto_create_blog_issues.js"
   }
 }

@@ -31,8 +31,8 @@ onMounted(() => {
               id: route.data.title, // 可选，推荐设置为页面标题，因为会作为标签传给Github issues，且issues标签有长度限制。
               owner: "HlkL", // GitHub repository 所有者
               repo: "HlkL.github.io", // GitHub repository
-              clientID: process.env.VITE_GITALK_CLIENT_ID, // 自己的clientID
-              clientSecret: process.env.VITE_GITALK_CLIENT_SECRET, // 自己的clientSecret
+              clientID: "Ov23ctMS0p89s8Ze5fqv", // 自己的clientID
+              clientSecret: "5f2152b27bc3b9e4ec63a154771e1e8ae445e847", // 自己的clientSecret
               admin: ["HlkL"], // GitHub repository 所有者
               labels: ["Gitalk"], // GitHub issue 的标签
               createIssueManually: false, //如果当前页面没有相应的 isssue 且登录的用户属于 admin，则会自动创建 issue。如果设置为 true，则显示一个初始化页面，创建 issue 需要点击 init 按钮。

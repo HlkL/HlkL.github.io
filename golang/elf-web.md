@@ -671,7 +671,7 @@ func (n *node) search(parts []string, height int) *node {
 
 - **插入节点：** 递归查找每层节点，如果没有匹配当前part的节点，则新建一个。需注意的是，对于路径/p/:lang/doc，只有在第三层doc节点时，pattern才会设置为/p/:lang/doc，p和:lang节点的pattern属性为空。因此，匹配结束时可以通过n.pattern == ““来判断路由规则是否匹配成功。例如，/p/python虽匹配到:lang，但由于:lang的pattern为空，因此匹配失败。
 
-- **查询节点：**同样递归查询每层节点。退出条件为：匹配到*，匹配失败，或匹配到第len(parts)层节点。
+- **查询节点：** 同样递归查询每层节点。退出条件为：匹配到*，匹配失败，或匹配到第len(parts)层节点。
 
 
 
@@ -769,5 +769,59 @@ func (r *router) handle(c *Context) {
 
 ### group
 
+使用 `RouterGroup` 提供了一种有效的机制来组织和管理 Web 应用程序的路由，使代码更加模块化、易于维护和扩展。
 
+
+
+::: details **<font color="#6DD3E3">嵌套</font>**
+
+```go
+type RouterGroup struct {
+	prefix     string
+	middleware []HandlerFunc
+	parent     *RouterGroup
+	engine     *Engine // 所有组共享一个实例
+}
+
+type Engine struct {
+  // 嵌套实现继承
+	*RouterGroup
+	// 路由
+	router *router
+	groups []*RouterGroup
+}
+
+// 创建实例
+func New() *Engine {
+	engine := &Engine{router: newRouter()}
+	engine.RouterGroup = &RouterGroup{engine: engine}
+	engine.groups = []*RouterGroup{engine.RouterGroup}
+	return engine
+}
+
+func (group *RouterGroup) Group(prefix string) *RouterGroup {
+	newGroup := &RouterGroup{
+		prefix: prefix,
+		parent: group,
+		engine: group.engine,
+	}
+
+	group.engine.groups = append(group.engine.groups, newGroup)
+	return newGroup
+}
+
+func (group *RouterGroup) addRouter(method string, pattern string, handler HandlerFunc) {
+	group.engine.router.addRouter(method, group.prefix+pattern, handler)
+}
+
+func (group *RouterGroup) GET(pattern string, handler HandlerFunc) {
+	group.addRouter("GET", pattern, handler)
+}
+
+func (group *RouterGroup) POST(pattern string, handler HandlerFunc) {
+	group.addRouter("POST", pattern, handler)
+}
+```
+
+:::
 

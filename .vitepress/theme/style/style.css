@@ -142,25 +142,6 @@
   display: none;
 }
 
-/* 背景图片优化 */
-.Layout:has(.VPHome) {
-  background: url('')
-    no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  user-select: none;
-  transition: 0.1s ease-in-out;
-}
-
-.dark .Layout:has(.VPHome) {
-  background: url('/public/dark_bg.png')
-    no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  user-select: none;
-  transition: 0.1s ease-in-out;
-}
-
 /* 侧边栏文字超出隐藏 */
 .VPSidebarItem .VPLink p {
   text-overflow: ellipsis;

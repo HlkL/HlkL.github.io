@@ -23,11 +23,11 @@ features:
       # light: /light-feature-icon.svg      #白色主题下的图标
     title: 实践检验真理
     details: 
-    link: ./java/index.md
+    link: ./docs/java/index.md
     # linkText: java
   - icon: 🌈
     title: 站在巨人肩膀上
-    link: ./juc/index.md
+    link: ./docs/juc/index.md
   - icon: 📝
     title: 好记性不如烂笔头
 ---

@@ -58,7 +58,7 @@ function getList(params, path1, pathname) {
   return res;
 }
 
-export const set_sidebar = (pathname) => {
+export const AutoSidebar = (pathname) => {
   // 获取pathname的路径
   const dirPath = path.join(DIR_PATH, pathname);
   // 读取pathname下的所有文件或者文件夹

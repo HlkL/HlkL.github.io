@@ -771,9 +771,7 @@ func (r *router) handle(c *Context) {
 
 使用 `RouterGroup` 提供了一种有效的机制来组织和管理 Web 应用程序的路由，使代码更加模块化、易于维护和扩展。
 
-
-
-::: details **<font color="#6DD3E3">嵌套</font>**
+::: details **<font color="#6DD3E3">查看代码</font>**
 
 ```go
 type RouterGroup struct {
@@ -824,4 +822,8 @@ func (group *RouterGroup) POST(pattern string, handler HandlerFunc) {
 ```
 
 :::
+
+
+
+## middleware
 

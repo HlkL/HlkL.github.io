@@ -51,12 +51,6 @@ h1 {
     border-color: var(--vp-c-red-2);
 }
 
-/* 详情框 */
-.custom-block.details {
-    border-color: #6DD3E3;
-}
-
-
 /* 引用块 */
 .vp-doc blockquote {
     border-radius: 5px;

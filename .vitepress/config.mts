@@ -8,13 +8,14 @@ export default withMermaid({
   description: "hg的博客",
   head: [
     ["link", { rel: "icon", href: "/icon.png" }],
-    ["link", {rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@docsearch/css@3"}],
+    ["link", { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@docsearch/css@3" }],
     // ['script', { type: "text/javascript", src: '/js/anime.min.js' }],
     // ['script', { type: "text/javascript", src: '/js/fireworks.js' }],
   ],
   lang: 'zh-CN', // 语言
   lastUpdated: true,// 最后更新时间
   cleanUrls: true, //纯净链接,去除在默认情况下Vitepress的链接以 .html 结尾
+  appearance: 'dark',// 默认深色模式
   markdown: {
     lineNumbers: true, // 代码行数显示
     math: true,//数学公式
@@ -58,6 +59,7 @@ export default withMermaid({
   //   }
   // },
   themeConfig: {
+    logo: './icon.png',
     returnToTopLabel: '返回顶部', //返回顶部文字修改
     sidebarMenuLabel: '目录', //侧边栏文字更改(移动端)
     darkModeSwitchLabel: '深浅模式',

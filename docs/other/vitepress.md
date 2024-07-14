@@ -853,10 +853,11 @@ export default {
 ```
 
 <Video
-    src="https://vitepress.yiov.top/lol.mp4"
+    src="../../public/video/lol.mp4"
     :width="666.67"
     :height="375"
     :second="3" />
+
 
 
 

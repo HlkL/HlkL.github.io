@@ -6,6 +6,7 @@ const DIR_PATH = path.resolve();
 // 白名单,过滤不是文章的文件和文件夹
 const WHITE_LIST = [
   "index.md",
+  "todo.md",
   ".vitepress",
   "node_modules",
   ".idea",

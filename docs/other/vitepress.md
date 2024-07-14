@@ -853,10 +853,11 @@ export default {
 ```
 
 <Video
-    src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1720942211-lol.mp4"
+    src="https://vitepress.yiov.top/lol.mp4"
     :width="666.67"
     :height="375"
     :second="3" />
+
 
 
 

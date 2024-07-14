@@ -1,1 +1,1 @@
-# Other
+![](../../public/other.webp)

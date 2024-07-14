@@ -59,7 +59,7 @@ export default withMermaid({
   //   }
   // },
   themeConfig: {
-    logo: './icon.png',
+    logo: '/icon.png',
     returnToTopLabel: '返回顶部', //返回顶部文字修改
     sidebarMenuLabel: '目录', //侧边栏文字更改(移动端)
     darkModeSwitchLabel: '深浅模式',

@@ -125,7 +125,7 @@ export default defineConfig({
    }
   },
   themeConfig: {
-    logo: './icon.png',
+    logo: '/icon.png',
     returnToTopLabel: '返回顶部', //返回顶部文字修改
     sidebarMenuLabel: '目录', //侧边栏文字更改(移动端)
     darkModeSwitchLabel: '深浅模式',
@@ -853,10 +853,11 @@ export default {
 ```
 
 <Video
-    src="../../public/video/lol.mp4"
+    src="/video/lol.mp4"
     :width="666.67"
     :height="375"
     :second="3" />
+
 
 
 

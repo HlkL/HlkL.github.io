@@ -108,7 +108,7 @@ export default withMermaid({
     },
 
     search: {
-      provider: 'algolia',
+      provider: 'local',
       options: {
         appId: '41AKMNBQQ4',
         apiKey: '9873076cd6001ca24a681f4295fc10ed',

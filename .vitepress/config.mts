@@ -13,11 +13,11 @@ export default withMermaid({
     // ['script', { type: "text/javascript", src: '/js/fireworks.js' }],
   ],
   lang: 'zh-CN', // 语言
-  lastUpdated: true,// 最后更新时间
+  // lastUpdated: true,// 最后更新时间
   cleanUrls: true, //纯净链接,去除在默认情况下Vitepress的链接以 .html 结尾
   appearance: 'dark',// 默认深色模式
   markdown: {
-    lineNumbers: true, // 代码行数显示
+    // lineNumbers: true, // 代码行数显示
     math: true,//数学公式
     image: {
       // 默认禁用图片懒加载

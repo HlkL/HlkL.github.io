@@ -252,7 +252,7 @@ func printOnce(num int) {
 
 
 
-### OnlyReadView
+### only read view
 
 ```go
 package elf
@@ -301,7 +301,7 @@ type cache[T lru.Value] struct {
 	cacheBytes int
 }
 
-func (c *cache[OnlyReadView]) Add(key string, value OnlyReadView) {
+func (c *cache[OnlyReadView]) add(key string, value OnlyReadView) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.lru == nil {
@@ -311,7 +311,7 @@ func (c *cache[OnlyReadView]) Add(key string, value OnlyReadView) {
 	c.lru.Add(key, value)
 }
 
-func (c *cache[OnlyReadView]) Get(key string) (v OnlyReadView, ok bool) {
+func (c *cache[OnlyReadView]) get(key string) (v OnlyReadView, ok bool) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.lru == nil {
@@ -325,4 +325,221 @@ func (c *cache[OnlyReadView]) Get(key string) (v OnlyReadView, ok bool) {
 	return
 }
 ```
+
+
+
+### group
+
+Group 是框架最核心的数据结构，负责与用户的交互，并且控制缓存值存储和获取的流程。
+
+```md
+                            是
+接收 key --> 检查是否被缓存 -----> 返回缓存值 ⑴
+                |  否                         是
+                |-----> 是否应当从远程节点获取 -----> 与远程节点交互 --> 返回缓存值 ⑵
+                            |  否
+                            |-----> 调用`回调函数`，获取值并添加到缓存 --> 返回缓存值 ⑶
+```
+
+项目主体结构
+
+```md
+elf/
+  |--lru/
+      |--lru.go  					// lru 缓存淘汰策略
+  |--onlyreadview.go				// 缓存值的抽象与封装
+  |--cache.go    					// 并发控制
+  |--elfcache.go 					// 负责与外部交互，控制缓存存储和获取的主流程
+```
+
+**设置源数据来源回调函数**
+
+```go
+type Getter interface {
+	Get(key string) ([]byte, error)
+}
+
+type GetterFunc func(key string) ([]byte, error)
+
+func (g GetterFunc) Get(key string) ([]byte, error) {
+	return g(key)
+}
+```
+
+- 定义接口 Getter 和 回调函数 `Get(key string)([]byte, error)`，参数是 key，返回值是 []byte。
+- 定义函数类型 GetterFunc，并实现 Getter 接口的 `Get` 方法。
+- 函数类型实现某一个接口，称之为[接口型函数](https://geektutu.com/post/7days-golang-q1.html)，接口型函数只能应用于接口内部只定义了一个方法的情况。方便使用者在调用时既能够传入函数作为参数，也能够传入实现了该接口的结构体作为参数。
+
+
+
+::: details **测试**
+
+```go
+func TestGetter(t *testing.T) {
+	var f Getter = GetterFunc(func(key string) ([]byte, error) {
+		return []byte(key), nil
+	})
+
+	expect := []byte("key")
+	if v, _ := f.Get("key"); !reflect.DeepEqual(v, expect) {
+		t.Errorf("callback failed")
+	}
+}
+```
+
+:::
+
+
+
+::: details **Group**
+
+**数据结构定义**
+
+```go
+type Group[T OnlyReadView] struct {
+	name      string
+	getter    Getter
+	mainCache cache[OnlyReadView]
+}
+
+var (
+	mu     sync.RWMutex
+	groups = make(map[string]*Group[OnlyReadView])
+)
+
+func NewGroup[T OnlyReadView](name string, cacheBytes int, getter Getter) *Group[OnlyReadView] { // [!code focus]
+	if getter == nil {
+		panic("nil Getter")
+	}
+
+	g := &Group[OnlyReadView]{
+		name:   name,
+		getter: getter,
+		mainCache: cache[OnlyReadView]{
+			cacheBytes: cacheBytes,
+		},
+	}
+
+	mu.Lock()
+	defer mu.Unlock()
+	groups[name] = g
+
+	return g
+}
+
+func GetGroup[T OnlyReadView](name string) *Group[OnlyReadView] {
+	mu.RLock()
+	defer mu.RUnlock()
+	return groups[name]
+}
+```
+
+- 一个 Group 可以认为是一个缓存的命名空间，每个 Group 拥有一个唯一的名称 `name`。比如可以创建三个 Group，缓存学生的成绩命名为 scores，缓存学生信息的命名为 info，缓存学生课程的命名为 courses。
+- 第二个属性是 `getter Getter`，即缓存未命中时获取源数据的回调(callback)。
+- 构建函数 `NewGroup` 用来实例化 Group，并且将 group 存储在全局变量 `groups` 中。
+- `GetGroup` 用来特定名称的 Group，这里使用了只读锁 `RLock()`，因为不涉及任何冲突变量的写操作。
+
+> `NewGroup[T OnlyReadView](name string, cacheBytes int, getter Getter)` 将某个/某几个方法封装为 interface{}，一般是为了获得更好的语义性和通用性。函数作为参数，是固定的，接口作为参数，便于扩展（接口内新增方法）。使用 `GetterFunc` 是一个接口型函数，自己是一个函数类型，同时实现了接口 `Getter`。因此，参数 getter 既支持传入实现了接口 `Getter` 的结构体，也支持直接传入函数（可以被转换为GetterFunc类型）。
+
+**核心功能**
+
+```go
+func (g *Group[T]) Get(key string) (OnlyReadView, error) {
+	if key == "" {
+		return OnlyReadView{}, fmt.Errorf("key is required")
+	}
+
+	if v, ok := g.mainCache.get(key); ok {
+		fmt.Println("[ElfCache hit]")
+		return v, nil
+	}
+
+	return g.load(key)
+}
+
+func (g *Group[T]) load(key string) (OnlyReadView, error) {
+	return g.getLocally(key)
+}
+
+func (g *Group[T]) getLocally(key string) (OnlyReadView, error) {
+	bytes, error := g.getter.Get(key)
+	if error != nil {
+		return OnlyReadView{}, error
+	}
+
+	value := OnlyReadView{b: cloneBytes(bytes)} // [!code focus]
+	g.populateCache(key, value)
+	return value, nil
+}
+
+func (g *Group[T]) populateCache(key string, value OnlyReadView) {
+	g.mainCache.add(key, value)
+}
+```
+
+- 流程 ⑴ ：从 mainCache 中查找缓存，如果存在则返回缓存值。
+- 流程 ⑶ ：缓存不存在，则调用 load 方法，load 调用 getLocally（分布式场景下会调用 getFromPeer 从其他节点获取），getLocally 调用用户回调函数 `g.getter.Get()` 获取源数据，并且将源数据添加到缓存 mainCache 中（通过 populateCache 方法）
+
+> `value := OnlyReadView{b: cloneBytes(bytes)}` 防止缓存值被外部程序修改。bytes 是切片，切片不会深拷贝。保存时复制一份，防止外部程序仍旧持有切片的控制权，保存后，切片被外部程序修改。
+
+**功能测试**
+
+```go
+var db = map[string]string{
+	"Tom":  "630",
+	"Jack": "589",
+	"Sam":  "567",
+}
+
+func TestGet(t *testing.T) {
+	loadCounts := make(map[string]int, len(db))
+	gee := NewGroup("scores", 2<<10, GetterFunc(
+		func(key string) ([]byte, error) {
+			log.Println("[SlowDB] search key", key)
+			if v, ok := db[key]; ok {
+				if _, ok := loadCounts[key]; !ok {
+					loadCounts[key] = 0
+				}
+				loadCounts[key] += 1
+				return []byte(v), nil
+			}
+			return nil, fmt.Errorf("%s not exist", key)
+		}))
+
+	for k, v := range db {
+		if view, err := gee.Get(k); err != nil || view.String() != v {
+			t.Fatal("failed to get value of Tom")
+		} // load from callback function
+		if _, err := gee.Get(k); err != nil || loadCounts[k] > 1 {
+			t.Fatalf("cache %s miss", k)
+		} // cache hit
+	}
+
+	if view, err := gee.Get("unknown"); err == nil {
+		t.Fatalf("the value of unknow should be empty, but %s got", view)
+	}
+}
+```
+
+输出结果
+
+```md
+=== RUN   TestGet
+2024/07/23 21:53:37 [SlowDB] search key Tom
+[ElfCache hit]
+2024/07/23 21:53:37 [SlowDB] search key Jack
+[ElfCache hit]
+2024/07/23 21:53:37 [SlowDB] search key Sam
+[ElfCache hit]
+2024/07/23 21:53:37 [SlowDB] search key unknown
+--- PASS: TestGet (0.00s)
+PASS
+ok      elf-cache/elf   (cached)
+```
+
+:::
+
+
+
+## http服务端
 

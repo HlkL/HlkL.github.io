@@ -291,7 +291,7 @@ func cloneBytes(b []byte) []byte {
 package elf
 
 import (
-	"elf-cache/elf/lru"
+	"elf/lru"
 	"sync"
 )
 
@@ -543,3 +543,299 @@ ok      elf-cache/elf   (cached)
 
 ## http服务端
 
+分布式缓存需要实现节点间通信，建立基于 HTTP 的通信机制是比较常见和简单的做法。如果一个节点启动了 HTTP 服务，那么这个节点就可以被其他节点访问。
+
+::: details **查看代码**
+
+http数据结构
+
+```go
+const BASE_PATH = "/elfcache/"
+
+type HTTPPool struct {
+	// 记录自己的地址，包括主机名/IP 和端口
+	self     string
+	// 节点间通讯地址前缀
+	basePath string
+}
+
+func NewHTTPPool(self string) *HTTPPool {
+	return &HTTPPool{
+		self:     self,
+		basePath: BASE_PATH,
+	}
+}
+```
+
+核心函数
+
+```go
+func (p *HTTPPool) Log(format string, v ...interface{}) {
+	log.Printf("[Server %s] %s", p.self, fmt.Sprintf(format, v...))
+}
+
+func (p *HTTPPool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if !strings.HasPrefix(r.URL.Path, p.basePath) {
+		panic("HTTPPool serving unexpected path: " + r.URL.Path)
+	}
+	p.Log("%s %s", r.Method, r.URL.Path)
+	// /<basepath>/<groupname>/<key> required
+	parts := strings.SplitN(r.URL.Path[len(p.basePath):], "/", 2)
+	if len(parts) != 2 {
+		http.Error(w, "bad request", http.StatusBadRequest)
+		return
+	}
+
+	groupName := parts[0]
+	key := parts[1]
+
+	group := GetGroup(groupName)
+	if group == nil {
+		http.Error(w, "no such group: "+groupName, http.StatusNotFound)
+		return
+	}
+
+	view, err := group.Get(key)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write(view.b)
+}
+```
+
+- ServeHTTP 首先判断访问路径的前缀是否是 `basePath`，不是返回错误。
+- 约定访问路径格式为 `/<basepath>/<groupname>/<key>`，通过 groupname 得到 group 实例，再使用 `group.Get(key)` 获取缓存数据。
+- 最终使用 `w.Write()` 将缓存值作为 httpResponse 的 body 返回。
+
+:::
+
+功能测试
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"elf"
+)
+
+var db = map[string]string{
+	"Tom":  "630",
+	"Jack": "589",
+	"Sam":  "567",
+}
+
+func main() {
+	elf.NewGroup[elf.OnlyReadView]("scores", 2<<10, elf.GetterFunc(
+		func(key string) ([]byte, error) {
+			log.Println("[SlowDB] search key", key)
+			if v, ok := db[key]; ok {
+				return []byte(v), nil
+			}
+			return nil, fmt.Errorf("%s not exist", key)
+		}))
+
+	addr := "localhost:9999"
+	peers := elf.NewHTTPPool(addr)
+	log.Println("elfcache is running at", addr)
+	log.Fatal(http.ListenAndServe(addr, peers))
+}
+```
+
+请求示例输出
+
+```
+http://localhost:9999/elfcache/scores/tom
+>> tom not exist
+http://localhost:9999/elfcache/scores/Jack
+>> 589
+```
+
+
+
+## 一致性哈希
+
+**参考博文:** [https://developer.aliyun.com/article/1082388](https://developer.aliyun.com/article/1082388)
+
+在分布式缓存中，当一个节点接收到请求，如果该节点并没有存储缓存值，应该从那个节点获取数据？当前节点，还是其他节点。假设包括当前在内一共有 10 个节点，当一个节点接收到请求时，随机选择一个节点，由该节点从数据源获取数据。
+
+假设第一次随机选取了节点 1 ，节点 1 从数据源获取到数据的同时缓存该数据；那第二次，只有 1/10 的可能性再次选择节点 1, 有 9/10 的概率选择了其他节点，如果选择了其他节点，就意味着需要再一次从数据源获取数据，一般来说，这个操作是很耗时的。这样做，一是缓存效率低，二是各个节点上存储着相同的数据，浪费了大量的存储空间。**对缓存数据的key进行hash运算后取模，N是机器的数量；运算后的结果映射对应集群中的节点。**
+
+![hash select peer](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1722174622-hash_select.jpg)
+
+简单求取 Hash 值解决了缓存性能的问题，但是没有考虑节点数量变化的场景。假设，移除了其中一台节点，只剩下 9 个，那么之前 `hash(key) % 10` 变成了 `hash(key) % 9`，也就意味着几乎缓存值对应的节点都发生了改变。即几乎所有的缓存值都失效了。节点在接收到对应的请求时，均需要重新去数据源获取数据，容易引起 `缓存雪崩`。
+
+
+
+### 算法原理
+
+一致性哈希算法将 key 映射到 2^32 的空间中，将这个数字首尾相连，形成一个环。
+
+- 计算节点/机器(通常使用节点的名称、编号和 IP 地址)的哈希值，放置在环上。
+- 计算 key 的哈希值，放置在环上，顺时针寻找到的第一个节点，就是应选取的节点/机器。
+- 当增加或者删除一台服务器时，受影响的数据仅仅是新添加或删除的服务器到其环空间中前一台的服务器（也就是顺着逆时针方向遇到的第一台服务器）之间的数据，其他都不会受到影响。
+
+![一致性哈希添加节点 consistent hashing add peer](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1722174781-add_peer.jpg)
+
+环上有 peer2，peer4，peer6 三个节点，`key11`，`key2`，`key27` 均映射到 peer2，`key23` 映射到 peer4。此时，如果新增节点/机器 peer8，假设它新增位置如图所示，那么只有 `key27` 从 peer2 调整到 peer8，其余的映射均没有发生改变。一致性哈希算法，在新增/删除节点时，只需要重新定位该节点附近的一小部分数据，而不需要重新定位所有的节点。
+
+::: danger
+
+由于哈希计算的随机性，导致一致性哈希算法存在一个致命问题：数据倾斜，，也就是说大多数访问请求都会集中少量几个节点的情况。特别是节点太少情况下，容易因为节点分布不均匀造成数据访问的冷热不均。这就失去了集群和负载均衡的意义。
+
+:::
+
+为了解决数据倾斜的问题，一致性哈希算法引入了虚拟节点机制，即对每一个物理服务节点映射多个虚拟节点，将这些虚拟节点计算哈希值并映射到哈希环上，当请求找到某个虚拟节点后，将被重新映射到具体的物理节点。虚拟节点越多，哈希环上的节点就越多，数据分布就越均匀，从而避免了数据倾斜的问题。
+
+
+
+::: details **算法实现**
+
+**数据结构**
+
+```go
+package consistenthash
+
+import "hash/crc32"
+
+// 哈希值计算函数
+type Hash func(b []byte) uint32
+
+type Map struct {
+	hash     Hash
+	replicas int
+	keys     []int
+	hashMap  map[int]string
+}
+
+func New(replicas int, fn Hash) *Map {
+	m := &Map{
+		replicas: replicas,
+		hash: fn,
+		hashMap: map[int]string{},
+	}
+
+	if m.hash == nil {
+		m.hash = crc32.ChecksumIEEE
+	}
+
+	return m
+}
+```
+
+- hash：哈希函数，用于生成节点的哈希值。允许用于替换成自定义的 Hash 函数，默认为 `crc32.ChecksumIEEE` 算法。
+- replicas：虚拟节点的倍数，每个实际节点会有多个虚拟节点。
+- keys：排序后的哈希环上的所有虚拟节点的哈希值。
+- hashMap：虚拟节点的哈希值到实际节点的映射。
+
+
+
+**机器节点添加函数**
+
+```go
+func (m *Map) Add(keys ...string) {
+	for _, key := range keys {
+		for i := 0; i < m.replicas; i++ {
+			hash := int(m.hash([]byte(strconv.Itoa(i) + key)))
+			m.keys = append(m.keys, hash)
+			m.hashMap[hash] = key
+		}
+	}
+	sort.Ints(m.keys)
+}
+```
+
+- 遍历每个需要添加的节点标识 key。
+
+- 对于每个节点标识，生成多个虚拟节点，计算它们的哈希值，并添加到哈希环中。
+
+- 维护一个从虚拟节点哈希值到实际节点标识的映射 hashMap。
+
+- 对所有的虚拟节点哈希值进行排序，以便后续的节点查找操作。
+
+
+
+**节点获取函数**
+
+```go
+func (m *Map) Get(key string) string {
+	if len(m.keys) == 0 {
+		return ""
+	}
+
+	hash := int(m.hash([]byte(key)))
+
+	// 使用二分查找在哈希环中找到第一个大于或等于该哈希值的虚拟节点位置。
+	idx := sort.Search(len(m.keys), func(i int) bool {
+		return m.keys[i] >= hash
+	})
+
+	return m.hashMap[idx % len(m.keys)]
+}
+```
+
+**功能测试**
+
+```go
+func TestHashing(t *testing.T) {
+	hash := New(3, func(key []byte) uint32 {
+		i, _ := strconv.Atoi(string(key))
+		return uint32(i)
+	})
+
+	hash.Add("6", "4", "2")
+	fmt.Printf("t: %v\n", hash.keys)
+
+	testCases := map[string]string{
+		"2":  "2",
+		"11": "2",
+		"23": "4",
+		"27": "2",
+	}
+
+	for k, v := range testCases {
+		if hash.Get(k) != v {
+			fmt.Printf("Asking for %s, should have yielded %s\n", k, v)
+		}
+	}
+
+	// Adds 8, 18, 28
+	hash.Add("8")
+
+	// 27 should now map to 8.
+	testCases["18"] = "8"
+
+	for k, v := range testCases {
+		if hash.Get(k) != v {
+			fmt.Printf("Asking for %s, should have yielded %s\n", k, v)
+		}
+	}
+
+}
+```
+
+输出结果
+
+```
+=== RUN   TestHashing
+t: [2 4 6 12 14 16 22 24 26]
+Asking for 2, should have yielded 2
+Asking for 11, should have yielded 2
+Asking for 23, should have yielded 4
+Asking for 27, should have yielded 2
+Asking for 2, should have yielded 2
+Asking for 11, should have yielded 2
+Asking for 23, should have yielded 4
+Asking for 27, should have yielded 2
+Asking for 18, should have yielded 8
+--- PASS: TestHashing (0.00s)
+PASS
+ok      elf/consistenthash      0.735s
+```
+
+:::

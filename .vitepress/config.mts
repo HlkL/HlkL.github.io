@@ -4,8 +4,8 @@ import timeline from "vitepress-markdown-timeline";
 import taskLists from 'markdown-it-task-checkbox'
 
 export default withMermaid({
-  title: "学习笔记",
-  description: "hg的博客",
+  title: "Yolo",
+  description: "学习日志",
   head: [
     ["link", { rel: "icon", href: "/icon.png" }],
     ["link", { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@docsearch/css@3" }],
@@ -109,6 +109,7 @@ export default withMermaid({
 
     search: {
       provider: 'local',
+      // provider: 'algolia',
       options: {
         appId: '41AKMNBQQ4',
         apiKey: '9873076cd6001ca24a681f4295fc10ed',

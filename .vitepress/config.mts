@@ -90,7 +90,6 @@ export default withMermaid({
           { text: '框架', link: '/docs/framework/' },
           { text: 'DevOps', link: '/docs/devops/' },
           { text: '中间件', link: '/docs/middleware/' },
-          { text: 'Juc', link: '/docs/juc/' },
           { text: '其他', link: '/docs/other/' },
         ]
       },
@@ -103,7 +102,6 @@ export default withMermaid({
       "/docs/framework/": AutoSidebar("/docs/framework"),
       "/docs/devops/": AutoSidebar("/docs/devops"),
       "/docs/middleware/": AutoSidebar("/docs/middleware"),
-      "/docs/juc/": AutoSidebar("/docs/juc"),
       "/docs/other/": AutoSidebar("/docs/other"),
     },
 

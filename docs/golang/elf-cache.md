@@ -33,13 +33,12 @@
 package lru
 
 import "container/list"
-
-type Cache[T Value] struct {
+type Cache struct {
 	maxBytes  int // 最大内存设置为0则没有淘汰策略
 	nBytes    int
 	ll        *list.List
 	cache     map[string]*list.Element
-	OnEvicted func(key string, value T)
+	OnEvicted func(key string, value Value)
 }
 
 type Value interface {
@@ -47,13 +46,9 @@ type Value interface {
 }
 
 // 双向链表节点数据类型
-type entry[T Value] struct {
+type entry struct {
 	key   string
-	value T
-}
-
-func (c *Cache[T]) Size() int {
-	return c.ll.Len()
+	value Value
 }
 ```
 
@@ -70,8 +65,8 @@ func (c *Cache[T]) Size() int {
 ::: code-group
 
 ```go[New]
-func New[T Value](maxBytes int, onEvicted func(string, T)) *Cache[T] {
-	return &Cache[T]{
+func New(maxBytes int, onEvicted func(string, Value)) *Cache {
+	return &Cache{
 		maxBytes:  maxBytes,
 		ll:        list.New(),
 		cache:     make(map[string]*list.Element),
@@ -81,10 +76,10 @@ func New[T Value](maxBytes int, onEvicted func(string, T)) *Cache[T] {
 ```
 
 ```go[Get]
-func (c *Cache[T]) Get(key string) (v T, ok bool) {
+func (c *Cache) Get(key string) (value Value , ok bool) {
 	if element, ok := c.cache[key]; ok {
 		c.ll.MoveToBack(element)
-		entry := element.Value.(*entry[T])
+		entry := element.Value.(*entry)
 		return entry.value, true
 	}
 
@@ -93,14 +88,14 @@ func (c *Cache[T]) Get(key string) (v T, ok bool) {
 ```
 
 ```go[RemoveOldest]
-func (c *Cache[T]) RemoveOldest() {
+func (c *Cache) RemoveOldest() {
 	element := c.ll.Front()
 	if element != nil {
 		// 删除队列元素
 		c.ll.Remove(element)
 
 		// 删除map数据
-		entry := element.Value.(*entry[T])
+		entry := element.Value.(*entry)
 		delete(c.cache, entry.key)
 		c.nBytes -= entry.value.Size() + len(entry.key)
 		if c.OnEvicted != nil {
@@ -111,14 +106,14 @@ func (c *Cache[T]) RemoveOldest() {
 ```
 
 ```go[Add]
-func (c *Cache[T]) Add(key string, value T) {
+func (c *Cache) Add(key string, value Value) {
 	if element, ok := c.cache[key]; ok {
 		c.ll.MoveToBack(element)
-		entry := element.Value.(*entry[T])
+		entry := element.Value.(*entry)
 		c.nBytes += value.Size() - entry.value.Size()
 		element.Value = entry
 	} else {
-		element := c.ll.PushBack(&entry[T]{key: key, value: value})
+		element := c.ll.PushBack(&entry{key: key, value: value})
 		c.cache[key] = element
 		c.nBytes += len(key) + value.Size()
 	}
@@ -144,9 +139,9 @@ func (d String) Size() int {
 }
 
 func TestGet(t *testing.T) {
-	lru := New[String](0, nil)
+	lru := New(0, nil)
 	lru.Add("key1", String("1234"))
-	if v, ok := lru.Get("key1"); !ok || v != "1234" {
+	if v, ok := lru.Get("key1"); !ok || string(v.(String)) != "1234" {
 		t.Fatalf("cache hit key1=1234 failed")
 	}
 	if _, ok := lru.Get("key2"); ok {
@@ -156,11 +151,11 @@ func TestGet(t *testing.T) {
 ```
 
 ```go[TestRemoveOldest]
-func TestRemoveOldest(t *testing.T) {
+func TestRemoveoldest(t *testing.T) {
 	k1, k2, k3 := "key1", "key2", "k3"
 	v1, v2, v3 := "value1", "value2", "v3"
 	cap := len(k1 + k2 + v1 + v2)
-	lru := New[String](cap, nil)
+	lru := New(cap, nil)
 	lru.Add(k1, String(v1))
 	lru.Add(k2, String(v2))
 	lru.Add(k3, String(v3))
@@ -174,7 +169,7 @@ func TestRemoveOldest(t *testing.T) {
 ```go[TestOnEvicted]
 func TestOnEvicted(t *testing.T) {
 	keys := make([]string, 0)
-	callback := func(key string, value String) {
+	callback := func(key string, value Value) {
 		keys = append(keys, key)
 	}
 	lru := New(10, callback)
@@ -217,7 +212,6 @@ func main() {
 	}
 	time.Sleep(time.Second)
 }
-
 ```
 
 运行结果
@@ -295,23 +289,23 @@ import (
 	"sync"
 )
 
-type cache[T lru.Value] struct {
+type cache struct {
 	mu         sync.Mutex
-	lru        *lru.Cache[T]
+	lru        *lru.Cache
 	cacheBytes int
 }
 
-func (c *cache[OnlyReadView]) add(key string, value OnlyReadView) {
+func (c *cache) add(key string, value OnlyReadView) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.lru == nil {
-		c.lru = lru.New[OnlyReadView](c.cacheBytes, nil)
+		c.lru = lru.New(c.cacheBytes, nil)
 	}
 
 	c.lru.Add(key, value)
 }
 
-func (c *cache[OnlyReadView]) get(key string) (v OnlyReadView, ok bool) {
+func (c *cache) get(key string) (v OnlyReadView, ok bool) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.lru == nil {
@@ -319,7 +313,7 @@ func (c *cache[OnlyReadView]) get(key string) (v OnlyReadView, ok bool) {
 	}
 
 	if v, ok := c.lru.Get(key); ok {
-		return v, true
+		return v.(OnlyReadView), true
 	}
 
 	return
@@ -330,7 +324,7 @@ func (c *cache[OnlyReadView]) get(key string) (v OnlyReadView, ok bool) {
 
 ### group
 
-Group 是框架最核心的数据结构，负责与用户的交互，并且控制缓存值存储和获取的流程。
+Group 是框架最核心的数据结构，负责与用户的交互，并且控制缓存值存储和获取的流程。[(流程2)](##分布式节点)
 
 ```md
                             是
@@ -396,26 +390,26 @@ func TestGetter(t *testing.T) {
 **数据结构定义**
 
 ```go
-type Group[T OnlyReadView] struct {
+type Group struct {
 	name      string
 	getter    Getter
-	mainCache cache[OnlyReadView]
+	mainCache cache
 }
 
 var (
 	mu     sync.RWMutex
-	groups = make(map[string]*Group[OnlyReadView])
+	groups = make(map[string]*Group)
 )
 
-func NewGroup[T OnlyReadView](name string, cacheBytes int, getter Getter) *Group[OnlyReadView] { // [!code focus]
+func NewGroup(name string, cacheBytes int, getter Getter) *Group { // [!code focus]
 	if getter == nil {
 		panic("nil Getter")
 	}
 
-	g := &Group[OnlyReadView]{
+	g := &Group{
 		name:   name,
 		getter: getter,
-		mainCache: cache[OnlyReadView]{
+		mainCache: cache{
 			cacheBytes: cacheBytes,
 		},
 	}
@@ -427,7 +421,7 @@ func NewGroup[T OnlyReadView](name string, cacheBytes int, getter Getter) *Group
 	return g
 }
 
-func GetGroup[T OnlyReadView](name string) *Group[OnlyReadView] {
+func GetGroup(name string) *Group {
 	mu.RLock()
 	defer mu.RUnlock()
 	return groups[name]
@@ -444,7 +438,7 @@ func GetGroup[T OnlyReadView](name string) *Group[OnlyReadView] {
 **核心功能**
 
 ```go
-func (g *Group[T]) Get(key string) (OnlyReadView, error) {
+func (g *Group) Get(key string) (OnlyReadView, error) {
 	if key == "" {
 		return OnlyReadView{}, fmt.Errorf("key is required")
 	}
@@ -457,11 +451,11 @@ func (g *Group[T]) Get(key string) (OnlyReadView, error) {
 	return g.load(key)
 }
 
-func (g *Group[T]) load(key string) (OnlyReadView, error) {
+func (g *Group) load(key string) (OnlyReadView, error) {
 	return g.getLocally(key)
 }
 
-func (g *Group[T]) getLocally(key string) (OnlyReadView, error) {
+func (g *Group) getLocally(key string) (OnlyReadView, error) {
 	bytes, error := g.getter.Get(key)
 	if error != nil {
 		return OnlyReadView{}, error
@@ -472,7 +466,7 @@ func (g *Group[T]) getLocally(key string) (OnlyReadView, error) {
 	return value, nil
 }
 
-func (g *Group[T]) populateCache(key string, value OnlyReadView) {
+func (g *Group) populateCache(key string, value OnlyReadView) {
 	g.mainCache.add(key, value)
 }
 ```
@@ -631,7 +625,7 @@ var db = map[string]string{
 }
 
 func main() {
-	elf.NewGroup[elf.OnlyReadView]("scores", 2<<10, elf.GetterFunc(
+	elf.NewGroup("scores", 2<<10, elf.GetterFunc(
 		func(key string) ([]byte, error) {
 			log.Println("[SlowDB] search key", key)
 			if v, ok := db[key]; ok {
@@ -684,7 +678,7 @@ http://localhost:9999/elfcache/scores/Jack
 
 环上有 peer2，peer4，peer6 三个节点，`key11`，`key2`，`key27` 均映射到 peer2，`key23` 映射到 peer4。此时，如果新增节点/机器 peer8，假设它新增位置如图所示，那么只有 `key27` 从 peer2 调整到 peer8，其余的映射均没有发生改变。一致性哈希算法，在新增/删除节点时，只需要重新定位该节点附近的一小部分数据，而不需要重新定位所有的节点。
 
-::: danger
+::: danger **数据倾斜**
 
 由于哈希计算的随机性，导致一致性哈希算法存在一个致命问题：数据倾斜，，也就是说大多数访问请求都会集中少量几个节点的情况。特别是节点太少情况下，容易因为节点分布不均匀造成数据访问的冷热不均。这就失去了集群和负载均衡的意义。
 
@@ -839,3 +833,321 @@ ok      elf/consistenthash      0.735s
 ```
 
 :::
+
+
+
+## 分布式节点
+
+在之前的代码中实现了[1，3步骤](#group)，当前模块实现流程2。
+
+```
+使用一致性哈希选择节点        是                                    是
+    |-----> 是否是远程节点 -----> HTTP 客户端访问远程节点 --> 成功？-----> 服务端返回返回值
+                    |  否                                    ↓  否
+                    |----------------------------> 回退到本地节点处理。
+```
+
+### 抽象 PeerPicker
+
+```go
+package elf
+
+type PeerPicker interface {
+	// 根据提供的键（key）选择一个适当的节点（peer）。
+	PickPeer(key string) (PeerGetter, bool)
+}
+
+type PeerGetter interface {
+	// 从对应的节点获取键（key）所对应的数据。
+	Get(group string, key string) ([]byte, error)
+}
+```
+
+### 节点选择&http客户端
+
+**http客户端**
+
+```go
+type httpGetter struct {
+	baseURL string
+}
+
+func (h *httpGetter) Get(group string, key string) ([]byte, error) {
+	u := fmt.Sprintf(
+		"%v%v/%v",
+		h.baseURL,
+		url.QueryEscape(group),
+		url.QueryEscape(key),
+	)
+
+  // 发送get请求获取数据
+	rst, err := http.Get(u)
+	if err != nil {
+		return nil, err
+	}
+	defer rst.Body.Close()
+
+	if rst.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("server returned: %v", rst.Status)
+	}
+
+	body, err := io.ReadAll(rst.Body)
+	if err != nil {
+		return nil, fmt.Errorf("reading response body: %v", err)
+	}
+
+	return body, nil
+}
+
+var _ PeerGetter = (*httpGetter)(nil)
+```
+
+> `var _ PeerGetter = (*httpGetter)(nil)`  **类型断言**用于在编译时检查 httpGetter 是否实现了 PeerGetter 接口。可以确保类型正确实现了接口，否则会在编译时报错。
+
+**为HTTPPool添加节点选择功能**
+
+```go
+type HTTPPool struct {
+	// 记录自己的地址，包括主机名/IP 和端口。
+	self string
+	// 节点间通讯地址前缀。
+	basePath string
+	mu       sync.Mutex
+	// 存储和管理所有参与节点的一致性哈希环。
+	peers *consistenthash.Map
+	// 存储和管理指向各个节点的 HTTP 客户端实例，这些客户端实例用于向对应的节点发送请求以获取缓存数据。
+	httpGetters map[string]*httpGetter
+}
+```
+
+实现可动态配置的节点池，可以在运行时根据需要添加或更改节点配置，并且能够根据键值快速选择合适的节点进行数据获取。
+
+```go
+// 初始化或重新配置节点池,以及一致性哈希映射和 HTTP 客户端的实例。
+func (p *HTTPPool) Set(peers ...string) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.peers = consistenthash.New(REPLICAS, nil)
+	p.peers.Add(peers...)
+	p.httpGetters = make(map[string]*httpGetter, len(peers))
+	for _, peer := range peers {
+		p.httpGetters[peer] = &httpGetter{baseURL: peer + p.basePath}
+	}
+}
+
+// 选择一个合适的节点来获取数据。
+func (p *HTTPPool) PickPeer(key string) (PeerGetter, bool) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if peer := p.peers.Get(key); peer != "" && peer != p.self {
+		p.Log("Pick peer %s", peer)
+		return p.httpGetters[peer], true
+	}
+	return nil, false
+}
+```
+
+**配置主流程(elfcache)**
+
+```go
+type Group struct {
+	name      string
+	getter    Getter
+	mainCache cache
+	peers     PeerPicker // 通过 PeerPicker 选择合适的远程节点进行数据操作。
+}
+
+func (g *Group) RegisterPeers(peers PeerPicker) {
+	if g.peers != nil {
+		panic("RegisterPeerPicker called more than once")
+	}
+	g.peers = peers
+}
+
+func (g *Group) load(key string) (OnlyReadView, error) {
+	if g.peers != nil {
+		if peer, ok := g.peers.PickPeer(key); ok {
+			if v, err := g.getFromPeer(peer, key); err == nil {
+				return v, err
+			}
+			log.Println("[elfcache] Failed to get from peer", err)
+		}
+	}
+
+	return g.getLocally(key)
+}
+
+func (g *Group) getFromPeer(peer PeerGetter, key string) (OnlyReadView, error) {
+	bytes, err := peer.Get(g.name, key)
+	if err != nil {
+		return OnlyReadView{}, err
+	}
+	return OnlyReadView{b: bytes}, nil
+}
+```
+
+- `RegisterPeers()` 方法，将 实现了 PeerPicker 接口的 HTTPPool 注入到 Group 中。
+
+- `getFromPeer()` 方法，使用实现了 PeerGetter 接口的 httpGetter 从访问远程节点，获取缓存值。
+- 使用 `PickPeer()` 方法选择节点，若非本机节点，则调用 `getFromPeer()` 从远程获取。若是本机节点或失败，则回退到 `getLocally()`。
+
+**主流程测试**
+
+::: code-group 查看代码
+
+```go
+package main
+
+import (
+	"elf"
+	"flag"
+	"fmt"
+	"log"
+	"net/http"
+)
+
+var db = map[string]string{
+	"Tom":  "630",
+	"Jack": "589",
+	"Sam":  "567",
+}
+
+func createGroup() *elf.Group {
+	return elf.NewGroup("scores", 0, elf.GetterFunc(
+		func(key string) ([]byte, error) {
+			log.Println("[SlowDB] search key", key)
+			if v, ok := db[key]; ok {
+				return []byte(v), nil
+			}
+			return nil, fmt.Errorf("%s not exist", key)
+		},
+	))
+}
+
+func startCacheServer(addr string, addrs []string, g *elf.Group) {
+	peers := elf.NewHTTPPool(addr)
+	peers.Set(addrs...)
+	g.RegisterPeers(peers)
+	log.Println("elfcache is running at", addr)
+	log.Fatal(http.ListenAndServe(addr[7:], peers))
+}
+
+func startApiServer(apiAddr string, g *elf.Group) {
+	http.Handle("api",http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			key := r.URL.Query().Get("key")
+			view, err := g.Get(key)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			w.Header().Set("Content-Type", "application/octet-stream")
+			w.Write(view.ByteSlice())
+		},
+	))
+	log.Println("fontend server is running at", apiAddr)
+	log.Fatal(http.ListenAndServe(apiAddr[7:], nil))
+}
+
+func main() {
+	var port int
+	var api bool
+	flag.IntVar(&port, "port", 8001, "elfcache server port")
+	flag.BoolVar(&api, "api", false, "Start a api server?")
+	flag.Parse()
+
+	apiAddr := "http://localhost:9999"
+	addrMap := map[int]string{
+		8001: "http://localhost:8001",
+		8002: "http://localhost:8002",
+		8003: "http://localhost:8003",
+	}
+
+	var addrs []string
+	for _, v := range addrMap {
+		addrs = append(addrs, v)
+	}
+
+	elf := createGroup()
+	if api {
+		go startApiServer(apiAddr, elf)
+	}
+	startCacheServer(addrMap[port], []string(addrs), elf)
+}
+```
+
+启动脚本
+
+```sh
+#!/bin/bash
+trap "rm server;kill 0" EXIT
+
+go build -o server
+./server -port=8001 &
+./server -port=8002 &
+./server -port=8003 -api=1 &
+
+sleep 2
+echo ">>> start test"
+curl "http://localhost:9999/api?key=Tom" &
+curl "http://localhost:9999/api?key=Tom" &
+curl "http://localhost:9999/api?key=Tom" &
+
+wait
+```
+
+:::
+
+
+
+## singleflight
+
+```go
+package singleflight
+
+import "sync"
+
+
+// 正在进行中，或已经结束的请求
+type call struct {
+	wg  sync.WaitGroup
+	val interface{}
+	err error
+}
+
+type Group struct {
+	mu sync.Mutex
+	m  map[string]*call
+}
+
+// 针对相同的 key，无论 Do 被调用多少次，函数 fn 都只会被调用一次，等待 fn 调用结束了，返回返回值或错误。
+func (g *Group) Do(key string, fn func() (interface{}, error)) (interface{}, error) {
+	g.mu.Lock()
+	if g.m == nil {
+		g.m = make(map[string]*call)
+	}
+	if c, ok := g.m[key]; ok {
+		g.mu.Unlock()
+		c.wg.Wait()
+		return c.val, c.err
+	}
+	c := new(call)
+	c.wg.Add(1)
+	g.m[key] = c
+	g.mu.Unlock()
+
+	c.val, c.err = fn()
+	c.wg.Done()
+
+	g.mu.Lock()
+	delete(g.m, key)
+	g.mu.Unlock()
+
+	return c.val, c.err
+}
+```
+
+
+
+**[Github 源码仓库](https://github.com/HlkL/golang-learn/tree/elf-cache)**
+

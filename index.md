@@ -27,7 +27,7 @@ features:
     # linkText: java
   - icon: 🌈
     title: 站在巨人肩膀上
-    link: ./docs/juc/index.md
+    link: ./docs/golang/index.md
   - icon: 📝
     title: 好记性不如烂笔头
 ---

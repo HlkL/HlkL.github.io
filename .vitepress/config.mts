@@ -4,7 +4,7 @@ import timeline from "vitepress-markdown-timeline";
 import taskLists from 'markdown-it-task-checkbox'
 
 export default withMermaid({
-  title: "Yolo",
+  title: "学习笔记",
   description: "学习日志",
   head: [
     ["link", { rel: "icon", href: "/icon.png" }],
@@ -98,7 +98,7 @@ export default withMermaid({
     sidebar: {
       "/docs/java/": AutoSidebar("/docs/java"),
       "/docs/golang/": AutoSidebar("/docs/golang"),
-      "/docs/frontend/": AutoSidebar("/docs/frontend/"),
+      "/docs/frontend/": AutoSidebar("/docs/frontend"),
       "/docs/framework/": AutoSidebar("/docs/framework"),
       "/docs/devops/": AutoSidebar("/docs/devops"),
       "/docs/middleware/": AutoSidebar("/docs/middleware"),
@@ -106,8 +106,8 @@ export default withMermaid({
     },
 
     search: {
-      provider: 'local',
-      // provider: 'algolia',
+      // provider: 'local',
+      provider: 'algolia',
       options: {
         appId: '41AKMNBQQ4',
         apiKey: '9873076cd6001ca24a681f4295fc10ed',

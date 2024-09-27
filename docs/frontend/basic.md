@@ -259,7 +259,7 @@ a {
 
 <h1 style="text-align: center;">标题一</h1>
 
-<div style="text-align: center;"><img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1726587654-8f320867ca3628b0d87e485c6d95193ac7ee5c21.jpg%40336w_190h_1c_%21web-video-rcmd-cover-20240917234054775.avif"></div>
+<div style="text-align: center;"><img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg"></div>
 
 ​    <a href="#" style="text-decoration: none;">超链接去除下划线</a>
 
@@ -267,7 +267,7 @@ a {
 
 
 
-### 背景属性
+## 背景属性
 
 | 描述           |         属性          |               属性值                |
 | :------------- | :-------------------: | :---------------------------------: |
@@ -328,6 +328,113 @@ div{
 
 
 <div style="background-image: url('https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg'); background-attachment: fixed;"><p>背景图固定测试文字</p> </div>
+
+
+
+## 显示模式
+
+1. **块级元素**
+
+::: code-group
+
+```html
+<div class="red">块级元素div标签</div>
+<div class="orange">块级元素div标签</div>
+```
+
+```css
+div,
+img {
+    width: 100px;
+    height: 100px;
+}
+
+.red {
+    background-color: red;
+}
+
+.orange {
+    background-color: orange;
+}
+```
+
+::: tip 块级独占一行，宽度默认为父级宽度100%，加宽高生效
+
+:::
+
+
+
+2. **行内元素**
+
+::: code-group
+
+```html
+<span class="pink">行内元素</span>
+<span class="skyblue">span标签</span>
+```
+
+```css
+.skyblue {
+    background-color: skyblue;
+}
+
+.pink {
+    background-color: pink;
+}
+```
+
+::: tip 行内元素一行共存多个，加宽高不生效
+
+:::
+
+
+
+3. **行内块元素**
+
+::: code-group
+
+```html
+<img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg">
+<img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg">
+```
+
+```css
+img {
+    width: 100px;
+    height: 100px;
+}
+```
+
+::: tip 行内块元素一行共存多个，宽高由内容决定，加宽高生效
+
+:::
+
+
+
+::: details **代码效果**
+
+<div>
+    <div style="width: 100px; height: 100px; background-color: red;">块级元素div标签</div>
+    <div style="width: 100px; height: 100px; background-color: orange;">块级元素div标签</div>
+    <span style="background-color: pink;">行内元素</span>
+    <span style="background-color: skyblue;">span标签</span>
+    <img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg" style="width: 100px; height: 100px;">
+    <img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg" style="width: 100px; height: 100px;">
+</div>
+
+:::
+
+
+
+4. **转化显示模式**
+
+> 属性名： ***display***
+
+|    属性值    |  效果  |
+| :----------: | :----: |
+|    block     |  块级  |
+| inline-block | 行内块 |
+|    inline    |  行内  |
 
 
 

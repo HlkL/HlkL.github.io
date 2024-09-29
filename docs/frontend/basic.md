@@ -155,6 +155,20 @@ span.class:hover {
     font-size: 30px;
     color: red;
 }
+/* 结构伪类选择器 */
+li:last-child {
+    background: #ff0;
+}
+
+li:nth-child(3) {
+    background: #0f0;
+}
+
+/* 伪元素选择器 */
+li::before {
+    background: pink;
+    counter: "asdas"
+}
 ```
 
 :::
@@ -438,3 +452,60 @@ img {
 
 
 
+## 盒子模型
+
+```css
+div {
+    width: 200px;
+    height: 200px;
+    background: pink;
+
+    /* 内边框 */
+    padding: 20px;
+
+    /* 边框线 */
+    border: 1px dashed #000;
+    border-top: 2px solid #000;
+    border-bottom: 2px dotted #0f0;
+    border-left: 2px dashed #fff;
+    border-right: 2px solid orange;
+
+    /* 外边框 */
+    margin: 20px;
+    margin: 0 auto;
+
+    /* 盒子尺寸，内减模式，浏览器自动计算 */
+    box-sizing: border-box;
+
+      /* 圆角设置 */
+    border-radius: 20px;
+}
+```
+
+::: tip **盒子的内边框属性可以通过最多四个简化参数由上到左顺时针设置，缺少的属性与它的对立面一致。padding和border会撑着盒子。两个垂直相邻盒子会合并在一起，如果配置了外边距，则会取两个盒子外边距的最大值。行内元素无法改变垂直边距，只能通过行高设置。**
+
+:::
+
+
+
+**代码效果：**
+
+<div style="width: 200px; height: 200px; background: pink; padding: 20px; border-top: 2px solid #000; border-bottom: 2px dotted #0f0; border-left: 2px dashed #fff; border-right: 2px solid orange; margin: 0 auto; box-sizing: border-box; border-radius: 20px;"></div>
+
+<img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1727629910-image-20240930011150554.png" alt="image-20240930011150554" style="zoom:50%;" />
+
+```css
+.button {
+    width: 100px;
+    height: 40px;
+    margin: 0 auto;
+    background-color: skyblue;
+    border-radius: 10px;
+
+    box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.5);
+}
+```
+
+**代码效果**
+
+<div style="width: 100px; height: 40px; margin: 0 auto; background-color: skyblue; border-radius: 10px; box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.5);"></div>

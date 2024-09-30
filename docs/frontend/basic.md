@@ -509,3 +509,329 @@ div {
 **代码效果**
 
 <div style="width: 100px; height: 40px; margin: 0 auto; background-color: skyblue; border-radius: 10px; box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.5);"></div>
+
+## 浮动
+
+::: code-group
+
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+.product {
+    width: 550px;
+    height: 300px;
+    margin: 40px auto;
+
+    background-color: pink;
+}
+
+.left {
+    width: 110px;
+    height: 300px;
+    float: left;
+
+
+    background-color: skyblue;
+}
+
+.right {
+    width: 435px;
+    height: 300px;
+    float: right;
+}
+
+.right li {
+    width: 100px;
+    height: 145px;
+    float: left;
+    margin: 0 5px;
+    margin-bottom: 10px;
+
+    background-color: orange;
+}
+
+.right li:nth-child(4n) {
+    margin-right: 0px;
+}
+
+```
+
+```html
+<div class="product">
+    <div class="left"></div>
+    <div class="right">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+```
+
+:::
+
+**代码效果：**
+
+<div style="width: 550px; height: 300px; margin: 40px auto; background-color: pink;">
+  <div style="width: 110px; height: 300px; float: left; background-color: skyblue;"></div>
+  <div style="width: 435px; height: 300px; float: right;">
+      <ul style="margin: 0; padding: 0; box-sizing: border-box;">
+          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
+          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
+          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
+          <li style="width: 100px; height: 145px; float: left; margin: 0 0 10px 5px; background-color: orange; list-style: none;"></li>
+          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
+          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
+          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
+          <li style="width: 100px; height: 145px; float: left; margin: 0 0 10px 5px; background-color: orange; list-style: none;"></li>
+      </ul>
+  </div>
+</div>
+
+
+
+**清除浮动**
+
+1. 额外标签法:在父元素内容的最后添加一个块级元素，设置CSS 属性 `clear: both`
+
+2. 单伪元素法
+
+```css
+clearfix: :after {
+  content: "";
+  display: block;
+  clear: both;
+}
+```
+
+3. 双伪元素法
+
+```css
+clearfix::before,
+clearfix::after {
+  content: ""
+  display: table;
+}
+
+clearfix::after {
+  clear: both;
+}
+```
+
+4. 父元素添加 CSS 属性 `overflow: hidden`
+
+
+
+## flex
+
+![image-20241001010124588](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1727715684-image-20241001010124588.png)
+
+**主轴与侧轴对齐方式**
+
+```html
+<div class="box">
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+```
+
+**主轴对齐(默认左对齐)：** `justify-content`
+
+```css{5-9,12-14}
+.box {
+    height: 120px;
+    display: flex;
+    	/* 左 */
+    justify-content: flex-start;
+    	/* 右对齐 */
+    justify-content: flex-end;
+      /* 居中对齐 */
+    justify-content: center;
+
+  
+    justify-content: space-between;
+    justify-content: space-around;
+    justify-content: space-evenly;
+    border: 1px solid pink;
+}
+
+.box div {
+    width: 130px;
+    height: 60px;
+    background-color: orange;
+}
+```
+
+`flex-start`
+
+<div style="height: 120px; display: flex; justify-content: flex-start; border: 1px solid pink;">
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+</div>
+
+`flex-end`
+
+<div style="height: 120px; display: flex; justify-content: flex-end; border: 1px solid pink;">
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+</div>
+
+`center`
+
+<div style="height: 120px; display: flex; justify-content: center; border: 1px solid pink;">
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+</div>
+
+`space-between`
+
+<div style="height: 120px; display: flex; justify-content: space-between; border: 1px solid pink;">
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+</div>
+
+`space-around`
+
+<div style="height: 120px; display: flex; justify-content: space-around; border: 1px solid pink;">
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+</div>
+
+`space-evenly`
+
+<div style="height: 120px; display: flex; justify-content: space-evenly; border: 1px solid pink;">
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+</div>
+
+ **侧轴对齐:** `align-items`对齐全部元素， `align-self` 对齐选中元素
+
+```css{6-8,13,17}
+.box {
+    height: 120px;
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+    align-items: flex-start;
+    align-items: flex-end;
+    border: 1px solid pink;
+}
+
+.box div:nth-child(2) {
+    align-self: center;
+}
+
+.box div:nth-child(3) {
+    align-self: start;
+}
+
+.box div {
+    width: 130px;
+    height: 60px;
+
+    background-color: orange;
+}
+```
+
+`align-items: center;`
+
+<div style="height: 120px; display: flex; justify-content: center; align-items: center; border: 1px solid pink;">
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+</div>
+
+`align-items: flex-start`
+
+<div style="height: 120px; display: flex; justify-content: center; align-items: start; border: 1px solid pink;">
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+</div>
+
+`align-items: flex-end`
+
+<div style="height: 120px; display: flex; justify-content: center; align-items: end; border: 1px solid pink;">
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+</div>
+
+`align-self`
+
+<div style="height: 120px; display: flex; justify-content: center; align-items: flex-end; border: 1px solid pink;">
+    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange; align-self: center;"></div>
+    <div style="width: 130px; height: 60px; background-color: orange; align-self: flex-start;"></div>
+</div>
+
+
+
+**修改主轴方向：** `flex-direction: column;` 修改主轴方向为水平方向，侧轴方向自动变为垂直方向。
+
+::: code-group
+
+```html
+<div class="media">
+    <div></div>
+    <span>媒体</span>
+</div>
+```
+
+```css{6}
+.media {
+    width: 100px;
+    height: 100px;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid black;
+}
+
+.media div {
+    width: 30px;
+    height: 30px;
+    background-color: pink;
+}
+
+.media span {
+    font-size: 15px;
+}
+```
+
+:::
+
+**代码效果：**
+
+<div style="width: 100px; height: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid black;">
+    <div style="width: 30px; height: 30px; background-color: pink;"></div>
+    <span style="font-size: 15px;">媒体</span>
+</div>
+
+
+

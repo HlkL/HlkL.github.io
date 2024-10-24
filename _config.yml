@@ -108,7 +108,7 @@ deploy:
   type: git
   message: update pages
   # 部署github pages
-  repo: git@github.com:HlkL/HlkL.github.io.git
+  repo: https://github.com/HlkL/HlkL.github.io
   branch: gh-pages
 
 feed:

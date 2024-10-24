@@ -834,4 +834,172 @@ clearfix::after {
 </div>
 
 
+## postion
 
+| 定位模式 | 属性值   | 是否脱标 | 显示模式             | 参照物                                |
+| -------- | -------- | -------- | -------------------- | ------------------------------------- |
+| 相对定位 | relative | 否       | 保持标签原有显示模式 | 自己原来位置                          |
+| 绝对定位 | absolute | 是       | 行内块特点           | 1. 已经定位的祖先元素 2. 浏览器可视区 |
+| 固定定位 | fixed    | 是       | 行内块特点           | 浏览器窗口                            |
+
+
+
+**sprites**
+
+盒子尺寸与小图尺寸相同
+
+1. ﻿﻿﻿设置盒子背景图为精灵图
+2. ﻿﻿添加 background-position 属性，改变背景图位置
+
+- 3.1 测量小图片左上角坐标
+- 3.2 取负数坐标为 background-position 属性值（向左上移动图片位置）
+
+
+
+## 字体图标
+
+展示的是图标，本质是字体,在网页中添加简单的、颜色单一的小图标。
+
+::: tip **优点**
+
+- 灵活性：灵活地修改样式，例如尺寸、颜色等
+
+- 轻量级：体积小、渲染快、降低服务器请求次数
+
+- 兼容性：几乎兼容所有主流浏览器
+- 使用方便：先下载再使用
+
+:::
+
+
+
+## vertical-align
+
+| 属性值   | 效果             |
+| -------- | ---------------- |
+| baseline | 基线对齐（默认） |
+| top      | 顶部对齐         |
+| middle   | 居中对齐         |
+| bottom   | 底部对齐         |
+
+
+
+## 过渡 transition
+
+作用：可以为一个元素在不同状态之间切换的时候添加过渡效果属性名：transition（复合属性）
+
+属性值：过渡的属性 花费时间（s）
+
+提示：
+
+- ﻿﻿过渡的属性可以是具体的 CSS 属性
+- ﻿﻿也可以为 all（两个状态属性值不同的所有属性，都产生过渡效果）
+- ﻿﻿transition 设置给元素本身
+
+```css
+div {
+    width: 100px;
+    height: 50px;
+    transition: all 0.5s;
+    background-color: pink;
+}
+
+div:hover {
+    width: 100%;
+    background-color: #af2f2f;
+}
+```
+
+<div style="width: 100px; height: 50px; transition: all 0.5s; background-color: pink;"
+     onmouseover="this.style.width='100%'; this.style.backgroundColor='#af2f2f';"
+     onmouseout="this.style.width='100px'; this.style.backgroundColor='pink';">
+</div>
+
+
+
+透明度 opacity
+
+作用：设置整个元素的透明度（包含背景和内容）
+
+属性名：opacity
+
+属性值：0-1
+
+- ﻿﻿0：完全透明（元素不可见）
+- ﻿﻿1：不透明
+- ﻿﻿0-1之间小数：半透明
+
+
+
+光标类型 cursor
+
+作用：鼠标悬停在元素上时指针显示样式
+
+属性名：cursor
+
+属性值
+
+| 属性值  | 效果                         |
+| ------- | ---------------------------- |
+| default | 默认值，通常是箭头           |
+| pointer | 小手效果，提示用户可以点击   |
+| text    | 工字型，提示用户可以选择文字 |
+| move    | 十字光标，提示用户可以移动   |
+
+
+
+## 平面转换
+
+- ﻿﻿作用：为元素添加动态效果，一般与过渡配合使用
+- ﻿﻿概念：改变盒子在平面内的形态（位移、旋转、缩放、倾斜）
+
+translate（）只写一个值，表示沿着 X轴移动
+
+单独设置 X或Y 轴移动距离：translateX（） 或 translateY（）
+
+**平面转换-平移**
+
+- ﻿﻿属性
+   transform: translate（X轴移动距离，Y轴移动距离）；
+- ﻿﻿取值
+- ﻿﻿像素单位数值
+   百分比（参照盒子自身尺寸计算结果）
+- ﻿正负均可
+
+![image-20241006004012517](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1728146412-image-20241006004012517.png)
+
+::: code-group
+
+```css
+.father {
+    width: 200px;
+    height: 100px;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+.son {
+    width: 100px;
+    height: 40px;
+    transition: all 0.5s;
+    background-color: pink;
+}
+
+.father:hover .son {
+    transform: translate(100px,100px);
+}
+```
+
+```html
+<div class="father">
+    <div class="son"></div>
+</div>
+```
+
+:::
+
+<div style="width: 200px; height: 100px; margin: 0 auto; border: 1px solid black;" 
+     onmouseover="this.children[0].style.transform='translate(100px, 100px)';"
+     onmouseout="this.children[0].style.transform='translate(0, 0)';">
+    <div style="width: 100px; height: 40px; transition: all 0.5s; background-color: pink;"></div>
+</div>

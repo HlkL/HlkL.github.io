@@ -3,22 +3,6 @@ let switchHandle = document.querySelector('#switch-color-scheme')
 let themeIcon = document.querySelector('#theme-icon')
 var html = document.documentElement
 
-// 监听系统主题变化
-const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-systemPrefersDark.addEventListener('change', (e) => {
-    let colorMode = 'light'
-    if(e.matches) {
-        html.setAttribute('color-mode', 'dark')
-        themeIcon.classList = 'iconfont icon-sun'
-        colorMode = 'dark'
-    } else {
-        html.setAttribute('color-mode', 'light')
-        themeIcon.classList = 'iconfont icon-moon'
-        colorMode = 'light'
-    }
-    localStorage.setItem('color-mode', colorMode)
-})
-
 const switchMode = () => {
     let attr = html.getAttribute('color-mode')
     let colorMode = 'light'

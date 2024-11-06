@@ -4,8 +4,8 @@
 
 # Site
 title: NOT FOUND
-subtitle: ''
-description: 'hg的博客'
+subtitle:
+description:
 keywords:
 author: HlkL
 language: zh-CN
@@ -48,15 +48,10 @@ relative_link: false
 future: true
 syntax_highlighter: highlight.js
 highlight:
+  enable: true
   line_number: true
   auto_detect: false
-  tab_replace: ''
-  wrap: true
-  hljs: false
-prismjs:
-  preprocess: true
-  line_number: true
-  tab_replace: ''
+  tab_replace:
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -106,8 +101,6 @@ theme: oranges
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  message: update pages
-  # 部署github pages
   repo: https://github.com/HlkL/HlkL.github.io
   branch: gh-pages
 

@@ -91,19 +91,19 @@ public class ThreadLocalDateUtil {
 
 ### 底层结构
 
-::: info JDK8 以前
+ info JDK8 以前
 
 每个 ThreadLocal 都创建一个 Map，然后用线程作为 Map 的 key，要存储的局部变量作为 Map 的 value，达到各个线程的局部变量隔离的效果。这种结构会造成 Map 结构过大和内存泄露，因为 Thread 停止后无法通过 key 删除对应的数据
 
-:::
+
 
 ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1712933427-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d5468726561644c6f63616c2545362539352542302545362538442541452545372542422539332545362539452538344a444b382545352538392538442e706e67.png)
 
-:::info JDK8 以后
+info JDK8 以后
 
 每个 Thread 维护一个 ThreadLocalMap，这个 Map 的 key 是 ThreadLocal 实例本身，value 是真正要存储的值
 
-:::
+
 
 - **每个 Thread 线程内部都有一个 Map (ThreadLocalMap)**
 - Map 里面存储 ThreadLocal 对象（key）和线程的私有变量（value）
@@ -175,9 +175,9 @@ JDK8 前后对比：
 
 - set()：修改当前线程与当前 threadlocal 对象相关联的线程局部变量
 
-  :::code-group 
+   
 
-  ```java[set]
+  ```java
   public void set(T value) {
       // 获取当前线程对象
       Thread t = Thread.currentThread();
@@ -193,7 +193,7 @@ JDK8 前后对比：
   }
   ```
 
-  ```java[getMap]
+  ```java
   // 获取当前线程 Thread 对应维护的 ThreadLocalMap 
   ThreadLocalMap getMap(Thread t) {
       return t.threadLocals;
@@ -205,13 +205,13 @@ JDK8 前后对比：
   }
   ```
 
-  :::
+  
 
 - get()：获取当前线程与当前 ThreadLocal 对象相关联的线程局部变量
 
-  :::code-group
+  
 
-  ```java[get]
+  ```java
   public T get() {
       Thread t = Thread.currentThread();
       ThreadLocalMap map = getMap(t);
@@ -236,7 +236,7 @@ JDK8 前后对比：
 
   
 
-  ```java[setInitialValue]
+  ```java
   private T setInitialValue() {
       // 调用initialValue获取初始化的值，此方法可以被子类重写, 如果不重写默认返回 null
       T value = initialValue();
@@ -254,7 +254,7 @@ JDK8 前后对比：
   }
   ```
 
-  :::
+  
 
 - remove()：移除当前线程与当前 threadLocal 对象相关联的线程局部变量
 
@@ -335,9 +335,9 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
 
   - 在探测过程中 ThreadLocal 会复用 key 为 null 的脏 Entry 对象，并进行垃圾清理，防止出现内存泄漏
 
-  :::code-group
+  
 
-  ```java{8,22}[set]
+  ```java
   private void set(ThreadLocal<?> key, Object value) {
       // 获取散列表
       ThreadLocal.ThreadLocalMap.Entry[] tab = table;
@@ -375,7 +375,7 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
   }
   ```
 
-  ```java[nextIndex]
+  ```java
   // 获取【环形数组】的下一个索引
   private static int nextIndex(int i, int len) {
       // 索引越界后从 0 开始继续获取
@@ -383,7 +383,7 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
   }
   ```
 
-  ```java{16}[replaceStaleEntry]
+  ```java
   // 在指定位置插入指定的数据
   private void replaceStaleEntry(ThreadLocal<?> key, Object value, int staleSlot) {
       // 获取散列表
@@ -438,14 +438,14 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
 
   
 
-  ```java[prevIndex]
+  ```java
   private static int prevIndex(int i, int len) {
       // 形成一个环绕式的访问，头索引越界后置为尾索引
       return ((i - 1 >= 0) ? i - 1 : len - 1);
   }
   ```
 
-  :::
+  
 
   ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1712933427-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d7265706c6163655374616c65456e7472792545362542352538312545372541382538422e706e67.png)
 
@@ -496,9 +496,9 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
 
 - rehash()：触发一次全量清理，如果数组长度大于等于长度的 `2/3 * 3/4 = 1/2`，则进行 resize
 
-  :::code-group
+  
 
-  ```java{3,7}[rehash]
+  ```java
   private void rehash() {
       // 清楚当前散列表内的【所有】过期的数据
       expungeStaleEntries();
@@ -511,7 +511,7 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
 
   
 
-  ```java[expungeStaleEntries]
+  ```java
   private void expungeStaleEntries() {
       Entry[] tab = table;
       int len = tab.length;
@@ -524,7 +524,7 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
   }
   ```
 
-  :::
+  
 
   Entry **数组为扩容为原来的 2 倍** ，重新计算 key 的散列值，如果遇到 key 为 null 的情况，会将其 value 也置为 null，帮助 GC
 
@@ -705,7 +705,7 @@ ThreadLocal 内部解决方法：在 ThreadLocalMap 中的 set/getEntry 方法�
 
 ThreadLocal 中存储的是线程的局部变量，如果想**实现线程间局部变量传递**可以使用 InheritableThreadLocal 类
 
-```java{2}
+```java
 public static void main(String[] args) {
     ThreadLocal<String> threadLocal = new InheritableThreadLocal<>();
     threadLocal.set("父线程设置的值");
@@ -735,9 +735,7 @@ public class InheritableThreadLocal<T> extends ThreadLocal<T> {
 
 实现父子线程间的局部变量共享需要追溯到 Thread 对象的构造方法：
 
-:::code-group
-
-```java{56,57}[Thread]
+```java
 private Thread(ThreadGroup g, Runnable target, String name,
                    long stackSize, AccessControlContext acc,
                    boolean inheritThreadLocals) {
@@ -804,13 +802,13 @@ private Thread(ThreadGroup g, Runnable target, String name,
 
 ```
 
-```java[createInheritedMap]
+```java
 static ThreadLocalMap createInheritedMap(ThreadLocalMap parentMap) {
     return new ThreadLocalMap(parentMap);
 }
 ```
 
-```java[ThreadLocalMap]
+```java
 private ThreadLocalMap(ThreadLocalMap parentMap) {
     Entry[] parentTable = parentMap.table;
     int len = parentTable.length;
@@ -835,5 +833,5 @@ private ThreadLocalMap(ThreadLocalMap parentMap) {
 }
 ```
 
-:::
+
 

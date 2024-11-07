@@ -247,9 +247,7 @@ func printOnce(num int) {
 
 
 
-
-
-### only read view
+**OnlyReadView**
 
 ```go
 package elf
@@ -539,8 +537,6 @@ ok      elf-cache/elf   (cached)
 ## http服务端
 
 分布式缓存需要实现节点间通信，建立基于 HTTP 的通信机制是比较常见和简单的做法。如果一个节点启动了 HTTP 服务，那么这个节点就可以被其他节点访问。
-
-**查看代码**
 
 http数据结构
 

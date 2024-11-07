@@ -6,10 +6,6 @@ tags:
   - framework
 ---
 
-# MybatisPlus学习笔记
-
-## MybatisPlus简介
-
 ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1710677110-4c8f42ff25bb8862d8fdf5a7042613631cb8516e.png)
 
 **`MyBatis-Plus`（简称 MP）是一个 MyBatis 的增强工具，在 MyBatis 的基础上只做增强不做改变，为简化开发、提高效率而生。**

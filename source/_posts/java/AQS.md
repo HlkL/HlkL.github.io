@@ -373,10 +373,8 @@ public void lock() {
   - 图中黄色三角表示该 Node 的 waitStatus 状态，其中 0 为默认**正常状态**
   - Node 的创建是懒惰的，其中第一个 Node 称为 **Dummy（哑元）或哨兵**，用来占位，并不关联线程
 
-  :::code-group
-
-  ```java[addWaiter]
-  // AbstractQueuedSynchronizer#addWaiter，返回当前线程的 node 节点
+  ```java
+// AbstractQueuedSynchronizer#addWaiter，返回当前线程的 node 节点
   private Node addWaiter(Node mode) {
       // 将当前线程关联到一个 Node 对象上, 模式为独占模式   
       Node node = new Node(Thread.currentThread(), mode);
@@ -396,9 +394,9 @@ public void lock() {
       return node;
   }
   ```
-
-  ```java[enq]
-  // AbstractQueuedSynchronizer#enq
+  
+  ```java
+// AbstractQueuedSynchronizer#enq
   private Node enq(final Node node) {
       // 自旋入队，必须入队成功才结束循环
       for (;;) {
@@ -421,9 +419,7 @@ public void lock() {
       }
   }
   ```
-
-  :::
-
+  
   ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1713095769-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d5265656e7472616e744c6f636b2de99d9ee585ace5b9b3e99481322e706e67.png)
 
 - 线程节点加入队列成功，进入 `AbstractQueuedSynchronizer#acquireQueued` 逻辑阻塞线程
@@ -540,8 +536,6 @@ Thread-0 释放锁，进入 release 流程
   }
   ```
 
-  
-
   ```java
   // ReentrantLock.Sync#tryRelease
   protected final boolean tryRelease(int releases) {
@@ -562,7 +556,7 @@ Thread-0 释放锁，进入 release 流程
       return free;
   }
   ```
-
+  
 - 进入 AbstractQueuedSynchronizer#unparkSuccessor 方法，唤醒当前节点的后继节点
 
   - 找到队列中距离 head 最近的一个没取消的 Node，unpark 恢复其运行，本例中即为 Thread-1
@@ -616,8 +610,6 @@ Thread-0 释放锁，进入 release 流程
 
 与非公平锁主要区别在于 tryAcquire 方法：先检查 AQS 队列中是否有前驱节点，没有才去 CAS 竞争
 
-:::code-group
-
 ```java
 static final class FairSync extends Sync {
     private static final long serialVersionUID = -3000897897090466540L;
@@ -655,7 +647,7 @@ public final boolean hasQueuedPredecessors() {
 }
 ```
 
-:::
+
 
 #### 可重入
 
@@ -699,10 +691,8 @@ public static void main(String[] args) throws InterruptedException {
 
 - 不可打断模式：即使它被打断，仍会驻留在 AQS 阻塞队列中，一直要**等到获得锁后才能得知自己被打断**了
 
-  :::code-group
-
   ```java
-  public final void acquire(int arg) {    
+public final void acquire(int arg) {    
       if (!tryAcquire(arg) && acquireQueued(addWaiter(Node.EXCLUSIVE), arg))//阻塞等待        
           // 如果acquireQueued返回true，打断状态 interrupted = true        
           selfInterrupt();
@@ -713,9 +703,9 @@ public static void main(String[] args) throws InterruptedException {
       Thread.currentThread().interrupt();
   }
   ```
-
-  ```java[acquireQueued]
-  final boolean acquireQueued(final Node node, int arg) {    
+  
+  ```java
+final boolean acquireQueued(final Node node, int arg) {    
       try {        
           boolean interrupted = false;        
           for (;;) {            
@@ -744,13 +734,11 @@ public static void main(String[] args) throws InterruptedException {
        return Thread.interrupted();
    }
   ```
-
-  :::
+  
+  
 
 - 可打断模式：AbstractQueuedSynchronizer#acquireInterruptibly，**被打断后会直接抛出异常**
 
-  :::code-group
-  
   ```java
   public void lockInterruptibly() throws InterruptedException {    
       sync.acquireInterruptibly(1);
@@ -764,8 +752,8 @@ public static void main(String[] args) throws InterruptedException {
           doAcquireInterruptibly(arg);
   }
   ```
-
-  ```java[doAcquireInterruptibly]
+  
+  ```java
   private void doAcquireInterruptibly(int arg) throws InterruptedException {
       // 返回封装当前线程的节点
       final Node node = addWaiter(Node.EXCLUSIVE);
@@ -785,8 +773,8 @@ public static void main(String[] args) throws InterruptedException {
       }
   }
   ```
-
-  ```java[cancelAcquire]
+  
+  ```java
   // 取消节点出队的逻辑
   private void cancelAcquire(Node node) {
       // 判空
@@ -836,7 +824,7 @@ public static void main(String[] args) throws InterruptedException {
   }
   ```
   
-  :::
+  
 
 #### 锁超时
 
@@ -899,8 +887,6 @@ public static void main(String[] args) {
 
 - tryLock(long timeout, TimeUnit unit)
 
-  :::code-group
-  
   ```java
   public final boolean tryAcquireNanos(int arg, long nanosTimeout) {
       if (Thread.interrupted())        
@@ -912,7 +898,7 @@ public static void main(String[] args) {
       return nonfairTryAcquire(acquires);
   }
   ```
-
+  
   ```java
   private boolean doAcquireNanos(int arg, long nanosTimeout) {    
       if (nanosTimeout <= 0L)
@@ -938,8 +924,7 @@ public static void main(String[] args) {
       }
   }
   ```
-
-  :::
+  
 
 #### 条件变量
 
@@ -1052,9 +1037,9 @@ public static void main(String[] args) throws InterruptedException {
   
 - **创建新的 Node 状态为 -2（Node.CONDITION）**，关联 Thread-0，加入等待队列尾部
 
-  :::code-group
+  
 
-  ```java[addConditionWaiter]
+  ```java
   private Node addConditionWaiter() {
       // 获取当前条件队列的尾节点的引用，保存到局部变量 t 中
       Node t = lastWaiter;
@@ -1077,7 +1062,7 @@ public static void main(String[] args) throws InterruptedException {
   
   ```
 
-  ```java[unlinkCancelledWaiters]
+  ```java
   // 清理条件队列内所有已取消（不是CONDITION）的 node，【链表删除的逻辑】
   private void unlinkCancelledWaiters() {
       // 从头节点开始遍历【FIFO】
@@ -1112,7 +1097,7 @@ public static void main(String[] args) throws InterruptedException {
   }
   ```
 
-  :::
+  
 
 - 接下来 Thread-0 进入 AQS 的 fullyRelease 流程，释放同步器上的锁
 
@@ -1165,7 +1150,7 @@ public static void main(String[] args) throws InterruptedException {
   
 - await 线程 park 后如果被 unpark 或者被打断，都会进入 checkInterruptWhileWaiting 判断线程是否被打断：**在条件队列被打断的线程需要抛出异常**
 
-  :::code-group
+  
 
   ```java
   private int checkInterruptWhileWaiting(Node node) {
@@ -1176,7 +1161,7 @@ public static void main(String[] args) throws InterruptedException {
   
   ```
 
-  ```java[transferAfterCancelledWait]
+  ```java
   // 这个方法只有在线程是被打断唤醒时才会调用
   final boolean transferAfterCancelledWait(Node node) {
       // 条件成立说明当前node一定是在条件队列内，因为 signal 迁移节点到阻塞队列时，会将节点的状态修改为 0
@@ -1200,7 +1185,7 @@ public static void main(String[] args) throws InterruptedException {
   }
   ```
 
-  :::
+  
 
 - 最后开始处理中断状态：
 
@@ -1416,9 +1401,7 @@ public static void main(String[] args) {
 
 Sync 类的属性：
 
-:::code-group
-
-```java[统计变量]
+```java
 // 用来移位
 static final int SHARED_SHIFT   = 16;
 // 高16位的1
@@ -1429,14 +1412,14 @@ static final int MAX_COUNT      = (1 << SHARED_SHIFT) - 1;
 static final int EXCLUSIVE_MASK = (1 << SHARED_SHIFT) - 1;
 ```
 
-```java[获取读写锁的次数]
+```java
 // 获取读写锁的读锁分配的总次数
 static int sharedCount(int c)    { return c >>> SHARED_SHIFT; }
 // 写锁（独占）锁的重入次数
 static int exclusiveCount(int c) { return c & EXCLUSIVE_MASK; }
 ```
 
-```java[内部类]
+```java
 // 记录读锁线程自己的持有读锁的数量（重入次数），因为 state 高16位记录的是全局范围内所有的读线程获取读锁的总量
 static final class HoldCounter {
     int count = 0;
@@ -1451,21 +1434,21 @@ static final class ThreadLocalHoldCounter extends ThreadLocal<HoldCounter> {
 }
 ```
 
-```java[内部类实例]
+```java
 // 当前线程持有的可重入读锁的数量，计数为 0 时删除
 private transient ThreadLocalHoldCounter readHolds;
 // 记录最后一个获取【读锁】线程的 HoldCounter 对象
 private transient HoldCounter cachedHoldCounter;
 ```
 
-```java[首次获取锁]
+```java
 // 第一个获取读锁的线程
 private transient Thread firstReader = null;
 // 记录该线程持有的读锁次数（读锁重入次数）
 private transient int firstReaderHoldCount;
 ```
 
-```java[Sync]
+```java
 Sync() {
     readHolds = new ThreadLocalHoldCounter();
     // 确保其他线程的数据可见性，state 是 volatile 修饰的变量，重写该值会将线程本地缓存数据【同步至主存】
@@ -1473,13 +1456,11 @@ Sync() {
 }
 ```
 
-:::
+
 
 ##### 加锁原理
 
 - t1 线程：w.lock（**写锁**），成功上锁 state = 0_1
-
-  :::code-group
 
   ```java
   // lock()  -> sync.acquire(1);
@@ -1491,10 +1472,9 @@ Sync() {
       if (!tryAcquire(arg) && acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
           selfInterrupt();
   }
-  
   ```
-
-  ```java[tryAcquire]
+  
+  ```java
   protected final boolean tryAcquire(int acquires) {
       Thread current = Thread.currentThread();
       int c = getState();
@@ -1530,18 +1510,15 @@ Sync() {
   final boolean writerShouldBlock() {
       return hasQueuedPredecessors();
   }
-  
   ```
-
-  :::
-
+  
+  
+  
 - t2 r.lock（**读锁**），进入 tryAcquireShared 流程：
 
   - 返回 -1 表示失败
   - 如果返回 0 表示成功
   - 返回正数表示还有多少后继节点支持共享模式，读写锁返回 1
-
-  :::code-group
 
   ```java
   public void lock() {
@@ -1552,10 +1529,9 @@ Sync() {
       if (tryAcquireShared(arg) < 0)
           doAcquireShared(arg);
   }
-  
   ```
-
-  ```java[tryAcquireShared]
+  
+  ```java
   // 尝试以共享模式获取
   protected final int tryAcquireShared(int unused) {
       Thread current = Thread.currentThread();
@@ -1607,10 +1583,9 @@ Sync() {
   final boolean readerShouldBlock() {
       return hasQueuedPredecessors();
   }
-  
   ```
-
-  ```java[fullTryAcquireShared]
+  
+  ```java
   final int fullTryAcquireShared(Thread current) {
       // 当前读锁线程持有的读锁次数对象
       HoldCounter rh = null;
@@ -1668,9 +1643,8 @@ Sync() {
           }
       }
   }
-  
   ```
-
+  
 - 获取读锁失败，进入 sync.doAcquireShared(1) 流程开始阻塞，首先也是调用 addWaiter 添加节点，不同之处在于节点被设置为 Node.SHARED 模式而非 Node.EXCLUSIVE 模式，注意此时 t2 仍处于活跃状态
 
   ```java
@@ -1755,10 +1729,8 @@ Sync() {
 
 - 接下来 t2 调用 setHeadAndPropagate(node, 1)，它原本所在节点被置为头节点；还会检查下一个节点是否是 shared，如果是则调用 doReleaseShared() 将 head 的状态从 -1 改为 0 并唤醒下一个节点，这时 t3 在 doAcquireShared 内 parkAndCheckInterrupt() 处恢复运行，**唤醒连续的所有的共享节点**
 
-  :::code-group
-
   ```java
-  private void setHeadAndPropagate(Node node, int propagate) {
+private void setHeadAndPropagate(Node node, int propagate) {
       Node h = head; 
       // 设置自己为 head 节点
       setHead(node);
@@ -1774,13 +1746,11 @@ Sync() {
       }
   }
   ```
-
   
-
-  ```java[doReleaseShared]
-  private void doReleaseShared() {
+  ```java
+private void doReleaseShared() {
       // 如果 head.waitStatus == Node.SIGNAL ==> 0 成功, 下一个节点 unpark
-  	// 如果 head.waitStatus == 0 ==> Node.PROPAGATE
+	// 如果 head.waitStatus == 0 ==> Node.PROPAGATE
       for (;;) {
           Node h = head;
           if (h != null && h != tail) {
@@ -1805,9 +1775,9 @@ Sync() {
       }
   }
   ```
-
-  :::
-
+  
+  
+  
   ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1713095788-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d5265656e7472616e745265616457726974654c6f636be8a7a3e99481312e706e67.png)
 
 - 下一个节点不是 shared 了，因此不会继续唤醒 t4 所在节点
@@ -2196,26 +2166,20 @@ public static void main(String[] args) {
 
 #### 实现原理
 
-:::code-group
 
-```java[全局锁]
+
+```java
 // barrier 实现是依赖于Condition条件队列，condition 条件队列必须依赖lock才能使用
 private final ReentrantLock lock = new ReentrantLock();
 // 线程挂起实现使用的 condition 队列，当前代所有线程到位，这个条件队列内的线程才会被唤醒
 private final Condition trip = lock.newCondition();
-```
-
-```java[线程数量]
 private final int parties;	// 代表多少个线程到达屏障开始触发线程任务
 private int count;			// 表示当前“代”还有多少个线程未到位，初始值为 parties
-```
-
-```java[barrierCommand]
 // 当前代中最后一个线程到位后要执行的事件
 private final Runnable barrierCommand;
 ```
 
-```java[代]
+```java
 // 表示 barrier 对象当前 代
 private Generation generation = new Generation();
 private static class Generation {
@@ -2225,7 +2189,7 @@ private static class Generation {
 }
 ```
 
-```java[构造方法]
+```java
 public CyclicBarrie(int parties, Runnable barrierAction) {
     // 因为小于等于 0 的 barrier 没有任何意义
     if (parties <= 0) throw new IllegalArgumentException();
@@ -2237,15 +2201,11 @@ public CyclicBarrie(int parties, Runnable barrierAction) {
 }
 ```
 
-:::
-
 ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1713095791-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d4379636c696342617272696572e5b7a5e4bd9ce58e9fe790862e706e67.png)
 
 ##### 成员方法
 
-:::code-group
-
-```java[await]
+```java
 // 阻塞等待所有线程到位
 public int await() throws InterruptedException, BrokenBarrierException {
     try {
@@ -2254,10 +2214,9 @@ public int await() throws InterruptedException, BrokenBarrierException {
         throw new Error(toe); // cannot happen
     }
 }
-
 ```
 
-```java[dowait]
+```java
 // timed：表示当前调用await方法的线程是否指定了超时时长，如果 true 表示线程是响应超时的
 // nanos：线程等待超时时长，单位是纳秒
 private int dowait(boolean timed, long nanos) {
@@ -2348,9 +2307,7 @@ private int dowait(boolean timed, long nanos) {
 }
 ```
 
-
-
-```java[breakBarrier]
+```java
 // 打破 Barrier 屏障
 private void breakBarrier() {
     // 将代中的 broken 设置为 true，表示这一代是被打破了，再来到这一代的线程，直接抛出异常
@@ -2363,7 +2320,7 @@ private void breakBarrier() {
 
 ```
 
-```java[nextGeneration]
+```java
 // 开启新的下一代
 private void nextGeneration() {
     // 将在 trip 条件队列内挂起的线程全部唤醒
@@ -2377,7 +2334,7 @@ private void nextGeneration() {
 
 ```
 
-:::
+
 
 ### Semaphore
 
@@ -2434,10 +2391,8 @@ public static void main(String[] args) {
 
   假设其中 Thread-1，Thread-2，Thread-4 CAS 竞争成功，permits 变为 0，而 Thread-0 和 Thread-3 竞争失败，进入 AQS 队列park 阻塞
 
-  :::code-group
-
   ```java
-  // acquire() -> sync.acquireSharedInterruptibly(1)，可中断
+// acquire() -> sync.acquireSharedInterruptibly(1)，可中断
   public final void acquireSharedInterruptibly(int arg) {
       if (Thread.interrupted())
           throw new InterruptedException();
@@ -2463,11 +2418,11 @@ public static void main(String[] args) {
       }
   }
   ```
-
+  
   
 
   ```java
-  private void doAcquireSharedInterruptibly(int arg) {
+private void doAcquireSharedInterruptibly(int arg) {
       // 将调用 Semaphore.aquire 方法的线程，包装成 node 加入到 AQS 的阻塞队列中
       final Node node = addWaiter(Node.SHARED);
       // 获取标记
@@ -2499,11 +2454,11 @@ public static void main(String[] args) {
       }
   }
   ```
-
+  
   
 
   ```java
-  private void setHeadAndPropagate(Node node, int propagate) {    
+private void setHeadAndPropagate(Node node, int propagate) {    
       Node h = head;
       // 设置自己为 head 节点
       setHead(node);
@@ -2518,7 +2473,7 @@ public static void main(String[] args) {
       }
   }
   ```
-
+  
   ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1713095793-68747470733a2f2f7365617a65616e2e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f696d672f4a6176612f4a55432d53656d6170686f7265254535254237254135254534254244253943254536254235253831254537254138253842312e706e67.png)
 
 - 这时 Thread-4 释放了 permits，状态如下

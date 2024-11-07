@@ -6,7 +6,7 @@ tags:
   - devops
 ---
 
-# CentOS7安装Docker
+# CentOS7安装docker
 
 **如果之前安装过旧版本的[Docker](https://www.docker.com/)，可以使用下面命令卸载：**
 
@@ -258,7 +258,7 @@ docker volume [COMMAND]
 - 数据卷挂载耦合度低，由docker来管理目录，但是目录较深，不好找
 - 目录挂载耦合度高，需要我们自己管理目录，不过目录容易寻找查看
 
-# Dockerfile自定义镜像
+# dockerfile自定义镜像
 
 **Dockerfile**就是一个文本文件，其中包含一个个的**[指令(Instruction)](https://docs.docker.com/engine/reference/builder)**，用指令来说明要执行什么操作来构建镜像。每一个指令都会形成一层**Layer**
 
@@ -278,19 +278,19 @@ docker volume [COMMAND]
 >    ```dockerfile
 >    # 指定基础镜像
 >    FROM java:8-alpine
->      
+>         
 >    # 拷贝jdk和java项目的包
 >    COPY ./docker-demo.jar /tmp/java.jar
->      
+>         
 >    # 暴露端口
 >    EXPOSE 8090
->      
+>         
 >    # 入口，java项目的启动命令
 >    ENTRYPOINT java -jar /tmp/java.jar
 >    ```
 > 3. 运行`docker build -t [imagesName]:[tag]` 命令
 
-# Docker-Compose
+# docker-Compose
 
 `Compose`**文件是一个文本文件，通过指令定义集群中的每个容器如何运行**
 
@@ -428,7 +428,7 @@ echo "199.232.68.133 raw.githubusercontent.com" >> /etc/hosts
 >   docker-compose up -d
 >   ```
 
-# Docker镜像仓库
+# 镜像仓库
 
 **搭建镜像仓库可以基于Docker官方提供的[`DockerRegistry`](https://hub.docker.com/_/registry)来实现,Docker官方的Docker Registry是一个基础版本的Docker镜像仓库，具备仓库管理的完整功能，但是没有图形化界面`registry-data`[是私有镜像库存放数据目录](http://YourIp:5000/v2/_catalog ) **
 
@@ -491,7 +491,7 @@ systemctl restart docker
 
 
 
-# <font color=red>**24年6月大陆docker封禁**</font>
+<font color=red>**镜像加速源**</font>
 
 **使用阿里云搭建私有仓库：** https://github.com/HlkL/docker_image_pusher
 
@@ -519,10 +519,8 @@ systemctl restart docker
 
 7. 配置展示页，创建 index.html
 
-   ::: details 查看代码
-
    ```html
-   <!DOCTYPE html>
+<!DOCTYPE html>
    <html lang="zh-CN">
    
    <head>
@@ -666,17 +664,13 @@ systemctl restart docker
    
    </html>
    ```
-
-   :::
-
+   
    ![image-20240702201600806](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1719922560-image-20240702201600806.png)
 
 8. 配置 Workers.js
 
-   ::: details 查看代码
-
    ```js
-   import HTML from './index.html';
+import HTML from './index.html';
    export default {
        async fetch(request) {
            const url = new URL(request.url);
@@ -714,10 +708,8 @@ systemctl restart docker
        }
    }
    ```
-
-   :::
-
-   配置完成后点击部署按钮，[并访问分配的域名。](https://docker.hougen.fun)
+   
+   配置完成后点击部署按钮，[并访问分配的域名。](https://mirror.hougen.fun)
 
 9. 自定义域名
 

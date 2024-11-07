@@ -247,7 +247,7 @@ public class UpdateDemo {
 
 Cell 为累加单元：数组访问索引是通过 Thread 里的 threadLocalRandomProbe 域取模实现的，这个域是 ThreadLocalRandom 更新的
 
-```java{6}
+```java
 // Striped64.Cell
 @sun.misc.Contended static final class Cell {
     volatile long value;

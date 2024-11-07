@@ -171,7 +171,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
 
 - put 操作：
 
-  ::: code-group
+  
 
   ```java
   public void put(E e) throws InterruptedException {
@@ -222,7 +222,7 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
   }
   ```
 
-  :::
+  
 
 - take 操作：
 
@@ -541,7 +541,7 @@ TransferStack 类成员方法：
 
 - awaitFulfill()：阻塞当前线程等待被匹配，返回匹配的节点，或者被取消的节点
 
-  :::code-group
+  
 
   ```java
   SNode awaitFulfill(SNode s, boolean timed, long nanos) {
@@ -599,7 +599,7 @@ TransferStack 类成员方法：
   }
   ```
 
-  :::
+  
 
 - clear()：指定节点出栈
 
@@ -1233,9 +1233,9 @@ ThreadPoolExecutor 使用 int 的**高 3 位来表示线程池状态，低 29 �
 
 - execute()：**没有返回值，没办法获取任务执行结果**，出现异常会直接抛出任务执行时的异常。根据线程池中的线程数，选择添加任务时的处理方式
 
-  :::code-group
+  
 
-  ```java[submit]
+  ```java
   public Future<?> submit(Runnable task) {
       // 空指针异常
       if (task == null) throw new NullPointerException();
@@ -1266,7 +1266,7 @@ ThreadPoolExecutor 使用 int 的**高 3 位来表示线程池状态，低 29 �
   }
   ```
 
-  ```java[execute]
+  ```java
   // command 可以是普通的 Runnable 实现类，也可以是 FutureTask，不能是 Callable
   public void execute(Runnable command) {
       // 非空判断
@@ -1306,7 +1306,7 @@ ThreadPoolExecutor 使用 int 的**高 3 位来表示线程池状态，低 29 �
   }
   ```
 
-  :::
+  
 
 ##### 添加线程
 
@@ -1785,7 +1785,7 @@ public static void main(String[] args) throws ExecutionException, InterruptedExc
 
 构造方法：
 
-:::code-group
+
 
 ```java
 public FutureTask(Callable<V> callable){
@@ -1823,7 +1823,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
 }
 ```
 
-:::
+
 
 ##### 成员属性
 
@@ -1907,9 +1907,9 @@ static final class RunnableAdapter<T> implements Callable<T> {
 
 - `FutureTask#cancel`：任务取消，打断正在执行该任务的线程
 
-  :::code-group
+  
 
-  ```java[run]
+  ```java
   public void run() {
       //条件一：成立说明当前 task 已经被执行过了或者被 cancel 了，非 NEW 状态的任务，线程就不需要处理了
       //条件二：线程是 NEW 状态，尝试设置当前任务对象的线程是当前线程，设置失败说明其他线程抢占了该任务，直接返回
@@ -1955,7 +1955,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[set]
+  ```java
   protected void set(V v) {
       // CAS 方式设置当前任务状态为完成中，设置失败说明其他线程取消了该任务
       if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) {
@@ -1968,7 +1968,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[setException]
+  ```java
   protected void setException(Throwable t) {
       if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) {
           // 赋值给返回结果，用来向上层抛出来的异常
@@ -1980,7 +1980,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[finishCompletion]
+  ```java
   private void finishCompletion() {
       // 遍历所有的等待的节点，q 指向头节点
       for (WaitNode q; (q = waiters) != null;) {
@@ -2012,7 +2012,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[handlePossibleCancellationInterrupt]
+  ```java
   private void handlePossibleCancellationInterrupt(int s) {
       if (s == INTERRUPTING)
           // 中断状态中
@@ -2022,7 +2022,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[get]
+  ```java
   public V get() throws InterruptedException, ExecutionException {
       // 获取当前任务状态
       int s = state;
@@ -2034,7 +2034,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[awaitDone]
+  ```java
   private int awaitDone(boolean timed, long nanos) throws InterruptedException {
       // 0 不带超时
       final long deadline = timed ? System.nanoTime() + nanos : 0L;
@@ -2088,7 +2088,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[report]
+  ```java
   private V report(int s) throws ExecutionException {
       // 获取执行结果，是在一个 futuretask 对象中的属性，可以直接获取
       Object x = outcome;
@@ -2103,7 +2103,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  ```java[cancel]
+  ```java
   public boolean cancel(boolean mayInterruptIfRunning) {
       // 条件一：表示当前任务处于运行中或者处于线程池任务队列中
       // 条件二：表示修改状态，成功可以去执行下面逻辑，否则返回 false 表示 cancel 失败
@@ -2133,7 +2133,7 @@ static final class RunnableAdapter<T> implements Callable<T> {
   }
   ```
 
-  :::
+  
 
 ### 任务调度
 
@@ -2204,7 +2204,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   - `scheduleWithFixedDelay`：**一次任务的结束到下一次任务的启动之间**等于间隔时间，抢占到 CPU 就会立即执行，这个方法才是真正的设置两个任务之间的间隔
 
 
-  :::code-group
+  
 
   ```java
   public static void main(String[] args){
@@ -2223,7 +2223,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[scheduleAtFixedRate]
+  ```java
   public static void main(String[] args) {
       ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
       System.out.println("start..." + new Date());
@@ -2240,7 +2240,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   running...Sat Apr 24 18:08:17 CST 2021
   ```
 
-  ```java[scheduleWithFixedDelay]
+  ```java
   public static void main(String[] args){
       ScheduledExecutorService pool = Executors.newScheduledThreadPool(3);
       System.out.println("start..." + new Date());
@@ -2256,7 +2256,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   running...Sat Apr 24 18:11:48 CST 2021
   ```
 
-  :::
+  
 
 #### 成员属性
 
@@ -2339,9 +2339,9 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 
 - `cancel()`：取消任务
 
-  :::code-group
+  
 
-  ```java[structure]
+  ```java
   ScheduledFutureTask(Runnable r, V result, long ns, long period) {
       super(r, result);
       // 任务的触发时间
@@ -2353,7 +2353,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[compareTo]
+  ```java
   public int compareTo(Delayed other) {
       if (other == this) // compare zero if same object
           return 0;
@@ -2380,7 +2380,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[run]
+  ```java
   public void run() {
       // 是否周期性，就是判断 period 是否为 0
       boolean periodic = isPeriodic();
@@ -2400,7 +2400,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[runAndReset]
+  ```java
   protected boolean runAndReset() {
       // 任务不是新建的状态了，或者被别的线程执行了，直接返回 false
       if (state != NEW ||
@@ -2433,7 +2433,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[setNextRunTime]
+  ```java
   private void setNextRunTime() {
       long p = period;
       if (p > 0)
@@ -2445,7 +2445,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[reExecutePeriodic]
+  ```java
   // ScheduledThreadPoolExecutor#reExecutePeriodic
   void reExecutePeriodic(RunnableScheduledFuture<?> task) {
       if (canRunInCurrentRunState(true)) {
@@ -2462,7 +2462,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[cancel]
+  ```java
   public boolean cancel(boolean mayInterruptIfRunning) {
       // 调用父类 FutureTask#cancel 来取消任务
       boolean cancelled = super.cancel(mayInterruptIfRunning);
@@ -2474,7 +2474,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  :::
+  
 
 ##### 延迟队列
 
@@ -2523,9 +2523,9 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 
 - `remove()`：删除节点，堆移除一个元素的时间复杂度是 O(log n)，**延迟任务维护了 heapIndex**，直接访问的时间复杂度是 O(1)，从而可以更快的移除元素，任务在队列中被取消后会进入该逻辑
 
-  :::code-group
+  
 
-  ```java[offer]
+  ```java
   public boolean offer(Runnable x) {
       // 判空
       if (x == null)
@@ -2568,7 +2568,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[siftUp]
+  ```java
   private void siftUp(int k, RunnableScheduledFuture<?> key) {
       while (k > 0) {
           // 父节点，就是堆排序
@@ -2586,7 +2586,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[poll]
+  ```java
   // 非阻塞获取
   public RunnableScheduledFuture<?> poll() {
       final ReentrantLock lock = this.lock;
@@ -2606,7 +2606,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[finishPoll]
+  ```java
   private RunnableScheduledFuture<?> finishPoll(RunnableScheduledFuture<?> f) {
       // 获取尾索引
       int s = --size;
@@ -2624,7 +2624,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[take]
+  ```java
   public RunnableScheduledFuture<?> take() throws InterruptedException {
       final ReentrantLock lock = this.lock;
       // 保证线程安全
@@ -2676,7 +2676,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[remove]
+  ```java
   public boolean remove(Object x) {
       final ReentrantLock lock = this.lock;
       lock.lock();
@@ -2709,7 +2709,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  :::
+  
 
 #### 成员方法
 
@@ -2816,9 +2816,9 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 
 - `onShutdown()`：删除并取消工作队列中的不需要再执行的任务
 
-  :::code-group
+  
 
-  ```java[delayedExecute]
+  ```java
   private void delayedExecute(RunnableScheduledFuture<?> task) {
       // 线程池是 SHUTDOWN 状态，需要执行拒绝策略
       if (isShutdown())
@@ -2836,7 +2836,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[ensurePrestart]
+  ```java
   // ThreadPoolExecutor#ensurePrestart
   void ensurePrestart() {
       int wc = workerCountOf(ctl.get());
@@ -2850,7 +2850,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[canRunInCurrentRunState]
+  ```java
   boolean canRunInCurrentRunState(boolean periodic) {
       // 根据是否是周期任务判断，在线程池 shutdown 后是否继续执行该任务，默认非周期任务是继续执行的
       return isRunningOrShutdown(periodic ? continueExistingPeriodicTasksAfterShutdown :
@@ -2858,7 +2858,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  ```java[onShutdown]
+  ```java
   void onShutdown() {
       BlockingQueue<Runnable> q = super.getQueue();
       // shutdown 后是否仍然执行延时任务
@@ -2890,7 +2890,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
   }
   ```
 
-  :::
+  
 
 ### ForkJoin
 

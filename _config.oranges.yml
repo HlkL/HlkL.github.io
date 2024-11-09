@@ -74,7 +74,7 @@ comments:
   # waline https://waline.js.org
   waline:
     enable: true
-    serverURL: https://weline.hougen.fun/
+    serverURL: https://waline-git-main-hlkls-projects.vercel.app
 
 # 主题页面导航栏
 navbar:

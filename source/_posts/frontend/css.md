@@ -56,24 +56,10 @@ div {
 }
 ```
 
-
 **代码效果：**
 
-<style>
-.red {
-    width: 100px;
-    height: 100px;
-    background-color: red;
-}
-.orange {
-    width: 200px;
-    height: 200px;
-    background-color: orange;
-}
-</style>
-
-<div class="red">red</div>
-<div class="orange">orange</div>
+<div class="red" style="width: 100px; height: 100px; background-color: red;">red</div>
+<div class="orange" style= "width: 200px; height: 200px; background-color: orange;">orange</div>
 
 
 
@@ -257,8 +243,9 @@ a {
 <p style="font-size: 20px; font-weight: 700; font-style: normal; line-height: 20px; text-indent: 3em;">测试字体一</p>
 
 <div style="height: 100px; background-color: skyblue; line-height: 100px;">
-        测试字体二
-    </div>
+    测试字体二
+</div>
+
 
 <h1 style="text-align: center;">标题一</h1>
 
@@ -452,7 +439,11 @@ div {
 
 <div style="width: 200px; height: 200px; background: pink; padding: 20px; border-top: 2px solid #000; border-bottom: 2px dotted #0f0; border-left: 2px dashed #fff; border-right: 2px solid orange; margin: 0 auto; box-sizing: border-box; border-radius: 20px;"></div>
 
+
+
 <img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1727629910-image-20240930011150554.png" alt="image-20240930011150554" style="zoom:50%;" />
+
+
 
 ```css
 .button {
@@ -608,7 +599,7 @@ clearfix::after {
 
 **主轴对齐(默认左对齐)：** `justify-content`
 
-```css{5-9,12-14}
+```css
 .box {
     height: 120px;
     display: flex;
@@ -683,7 +674,7 @@ clearfix::after {
 
  **侧轴对齐:** `align-items`对齐全部元素， `align-self` 对齐选中元素
 
-```css{6-8,13,17}
+```css
 .box {
     height: 120px;
     display: flex;
@@ -754,7 +745,7 @@ clearfix::after {
 </div>
 ```
 
-```css{6}
+```css
 .media {
     width: 100px;
     height: 100px;
@@ -814,6 +805,7 @@ clearfix::after {
 展示的是图标，本质是字体,在网页中添加简单的、颜色单一的小图标。
 
 **优点**
+
 - 灵活性：灵活地修改样式，例如尺寸、颜色等
 - 轻量级：体积小、渲染快、降低服务器请求次数
 - 兼容性：几乎兼容所有主流浏览器

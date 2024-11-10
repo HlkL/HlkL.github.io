@@ -120,7 +120,7 @@ footer:
     -
       name: docker-mirror
       icon: docker
-      path: https://mirror.hougen.fun
+      path: https://docker-mirror.9crp9mzt5x.workers.dev
     -
       name: gemini-ai
       icon: sijiaoxing

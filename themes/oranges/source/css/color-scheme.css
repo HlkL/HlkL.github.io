@@ -20,6 +20,7 @@
   --bg-block-md-table-2: #f6f8fa;
   --color-border-md-table: #dfe2e5;
   --waline-bg-color-light: #fff;
+  --post-catalog-bg: #fff;
 }
 
 /* dark scheme */
@@ -43,6 +44,7 @@
   --bg-block-md-table: #2E3440;
   --bg-block-md-table-2: #313744;
   --color-border-md-table: #4c566a;
+  --post-catalog-bg: #343946;
   --waline-bg-color: #343946;
   --waline-bg-color-light: #343946;
   --waline-border-color: #333;

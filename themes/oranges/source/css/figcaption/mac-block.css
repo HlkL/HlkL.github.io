@@ -23,6 +23,7 @@ figure table {
 
 figure table .gutter {
   user-select: none;
+  display: none;
 }
 
 figure figcaption {

@@ -20,6 +20,9 @@ tags:
 
 
 
+
+
+
 # css
 
 **层叠样式表**（Cascading Style Sheets，缩写为 **CSS**）是一种[样式表](https://developer.mozilla.org/zh-CN/docs/Web/API/StyleSheet)语言，用来描述 [HTML](https://developer.mozilla.org/zh-CN/docs/Web/HTML) 或 [XML](https://developer.mozilla.org/zh-CN/docs/Web/XML/XML_introduction)（包括如 [SVG](https://developer.mozilla.org/zh-CN/docs/Web/SVG)、[MathML](https://developer.mozilla.org/zh-CN/docs/Web/MathML) 或 [XHTML](https://developer.mozilla.org/zh-CN/docs/Glossary/XHTML) 之类的 XML 分支语言）文档的呈现方式。CSS 描述了在屏幕、纸质、音频等其他媒体上的元素应该如何被渲染的问题。
@@ -28,7 +31,7 @@ tags:
 
 
 
-## 选择器
+## selector
 
 1. **标签，类选择器**
 
@@ -58,8 +61,10 @@ div {
 
 **代码效果：**
 
-<div class="red" style="width: 100px; height: 100px; background-color: red;">red</div>
-<div class="orange" style= "width: 200px; height: 200px; background-color: orange;">orange</div>
+<iframe srcdoc='
+<div style="width: 100px; height: 100px; background-color: red;">red</div>
+<div style="width: 200px; height: 200px; background-color: orange;">orange</div>
+' style="border: none; height: 320px;"></iframe>
 
 
 
@@ -82,9 +87,10 @@ div {
 
 **代码效果：**
 
+<iframe srcdoc='
 <font size=20px>id选择器<br></font>
-
 <font size=20px color=red>通配符选择器</font>
+' style="border: none; margin: 0 auto;"></iframe>
 
 3. **复合选择器**
 
@@ -158,36 +164,35 @@ li::before {
 
 **代码效果：**
 
+<iframe srcdoc="
 <div>
-    <span style="background-color: skyblue;">
+    <span style='background-color: skyblue;'>
         后代选择器--孩子
     </span>
     <div>
-        <span style="background-color: skyblue;">后代选择器--孙子</span>
+        <span style='background-color: skyblue;'>后代选择器--孙子</span>
     </div>
 </div>
-
 <div>
-    <p style="color: red;">
+    <p style='color: red;'>
         子代选择器
     </p>
 </div>
-
-<div style="width: 100px; height: 100px; background-color: blue;">
+<div style='width: 100px; height: 100px; background-color: blue;'>
     div标签1
 </div>
 <div>
     div标签2
 </div>
 <p>p标签</p>
-
-<span style="font-size: 16px;" class="class" onmouseover="this.style.fontSize='30px'; this.style.color='red';" onmouseout="this.style.fontSize='16px'; this.style.color='black';">
+<span style='font-size: 16px;' class='class' onmouseover='this.style.fontSize=&quot;30px&quot;; this.style.color=&quot;red&quot;;' onmouseout='this.style.fontSize=&quot;16px&quot;; this.style.color=&quot;black&quot;'>
     伪类选择器测试
 </span>
+" style="border: none; height: 330px; width: 100%;"></iframe>
 
 > tip 选中标签的范围越大，优先级越低。
 
-## 字体修饰属性
+## font
 
 ```html
 <p class="font1">测试字体一</p>
@@ -240,22 +245,19 @@ a {
 
 **代码效果**
 
+<iframe srcdoc='
 <p style="font-size: 20px; font-weight: 700; font-style: normal; line-height: 20px; text-indent: 3em;">测试字体一</p>
-
 <div style="height: 100px; background-color: skyblue; line-height: 100px;">
     测试字体二
 </div>
-
-
 <h1 style="text-align: center;">标题一</h1>
-
 <div style="text-align: center;"><img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg"></div>
+<a style="text-decoration: none;">超链接去除下划线</a>
+' style="border: none; height: 470px; width: 100%;"></iframe>
 
-​    <a href="#" style="text-decoration: none;">超链接去除下划线</a>
 
 
-
-## 背景属性
+## background
 
 | 描述           |         属性          |               属性值                |
 | :------------- | :-------------------: | :---------------------------------: |
@@ -303,18 +305,21 @@ div{
 
 > **关键字设置背景图片位置，可以颠倒顺序。只写一个关键字，另外一个为居中。数字只写一个值表示水平方向，垂直方向为居中。**
 
-
 **代码效果：**
 
-<div style="width: 370px; height: 370px; background-color: pink; background-image: url('https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg'); background-repeat: no-repeat; background-position: center;">div标签 </div>
+<iframe srcdoc="
+    <div style='width: 370px; height: 370px; background-color: pink; background-image: url(https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg); background-repeat: no-repeat; background-position: center;'>
+        div标签
+    </div>
+    <div style='background-image: url(https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg); background-attachment: fixed;'>
+        <p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p>
+        <p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p><p>背景图固定测试文字</p>
+    </div>
+" style="border: none; width: 100%;"></iframe>
 
 
 
-<div style="background-image: url('https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg'); background-attachment: fixed;"><p>背景图固定测试文字</p> </div>
-
-
-
-## 显示模式
+## show-mode
 
 1. **块级元素**
 
@@ -377,15 +382,16 @@ img {
 
 **代码效果**
 
-<div>
-    <div style="width: 100px; height: 100px; background-color: red;">块级元素div标签</div>
-    <div style="width: 100px; height: 100px; background-color: orange;">块级元素div标签</div>
-    <span style="background-color: pink;">行内元素</span>
-    <span style="background-color: skyblue;">span标签</span>
-    <img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg" style="width: 100px; height: 100px;">
-    <img src="https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg" style="width: 100px; height: 100px;">
-</div>
-
+<iframe srcdoc="
+    <div>
+        <div style='width: 100px; height: 100px; background-color: red;'>块级元素div标签</div>
+        <div style='width: 100px; height: 100px; background-color: orange;'>块级元素div标签</div>
+        <span style='background-color: pink;'>行内元素</span>
+        <span style='background-color: skyblue;'>span标签</span>
+        <img src='https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg' style='width: 100px; height: 100px;'>
+        <img src='https://scpic3.chinaz.net/files/default/imgs/2023-10-10/9a81121313435261_s.jpg' style='width: 100px; height: 100px;'>
+    </div>
+    " style="border: none; height: 330px; width: 100%;"></iframe>
 
 
 
@@ -401,7 +407,7 @@ img {
 
 
 
-## 盒子模型
+## box-model
 
 ```css
 div {
@@ -437,9 +443,21 @@ div {
 
 **代码效果：**
 
-<div style="width: 200px; height: 200px; background: pink; padding: 20px; border-top: 2px solid #000; border-bottom: 2px dotted #0f0; border-left: 2px dashed #fff; border-right: 2px solid orange; margin: 0 auto; box-sizing: border-box; border-radius: 20px;"></div>
-
-
+<iframe srcdoc="
+    <div style='
+        width: 200px; 
+        height: 200px; 
+        background: pink; 
+        padding: 20px; 
+        border-top: 2px solid #000; 
+        border-bottom: 2px dotted #0f0; 
+        border-left: 2px dashed #fff; 
+        border-right: 2px solid orange; 
+        margin: 0 auto; 
+        box-sizing: border-box; 
+        border-radius: 20px;
+    '></div>
+    " style="border: none; margin: 0 auto; height: 300px; width: 100%;"></iframe>
 
 <img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1727629910-image-20240930011150554.png" alt="image-20240930011150554" style="zoom:50%;" />
 
@@ -459,9 +477,19 @@ div {
 
 **代码效果**
 
-<div style="width: 100px; height: 40px; margin: 0 auto; background-color: skyblue; border-radius: 10px; box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.5);"></div>
+<iframe srcdoc="
+        <div style='
+            width: 100px; 
+            height: 40px; 
+            margin: 0 auto; 
+            background-color: skyblue; 
+            border-radius: 10px; 
+            box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
+        '></div>
+    " style="border: none; margin: 0 auto; width: 100%;"></iframe>
 
-## 浮动
+## float
 
 ```css
 * {
@@ -533,21 +561,24 @@ li {
 
 **代码效果：**
 
-<div style="width: 550px; height: 300px; margin: 40px auto; background-color: pink;">
-  <div style="width: 110px; height: 300px; float: left; background-color: skyblue;"></div>
-  <div style="width: 435px; height: 300px; float: right;">
-      <ul style="margin: 0; padding: 0; box-sizing: border-box;">
-          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
-          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
-          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
-          <li style="width: 100px; height: 145px; float: left; margin: 0 0 10px 5px; background-color: orange; list-style: none;"></li>
-          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
-          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
-          <li style="width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;"></li>
-          <li style="width: 100px; height: 145px; float: left; margin: 0 0 10px 5px; background-color: orange; list-style: none;"></li>
-      </ul>
-  </div>
+<iframe srcdoc="
+<div style='width: 550px; height: 300px; margin: 40px auto; background-color: pink;'>
+    <div style='width: 110px; height: 300px; float: left; background-color: skyblue;'></div>
+    <div style='width: 435px; height: 300px; float: right;'>
+        <ul style='margin: 0; padding: 0; box-sizing: border-box;'>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;'></li>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;'></li>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;'></li>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 0 10px 5px; background-color: orange; list-style: none;'></li>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;'></li>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;'></li>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 5px 10px 5px; background-color: orange; list-style: none;'></li>
+            <li style='width: 100px; height: 145px; float: left; margin: 0 0 10px 5px; background-color: orange; list-style: none;'></li>
+        </ul>
+    </div>
 </div>
+" style="border: none; height: 390px; width: 100%;"></iframe>
+
 
 
 
@@ -626,51 +657,99 @@ clearfix::after {
 
 `flex-start`
 
-<div style="height: 120px; display: flex; justify-content: flex-start; border: 1px solid pink;">
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: flex-start; 
+    border: 1px solid pink;
+'>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `flex-end`
 
-<div style="height: 120px; display: flex; justify-content: flex-end; border: 1px solid pink;">
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: flex-end; 
+    border: 1px solid pink;
+'>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `center`
 
-<div style="height: 120px; display: flex; justify-content: center; border: 1px solid pink;">
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: center; 
+    border: 1px solid pink;
+'>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `space-between`
 
-<div style="height: 120px; display: flex; justify-content: space-between; border: 1px solid pink;">
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: space-between; 
+    border: 1px solid pink;
+'>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `space-around`
 
-<div style="height: 120px; display: flex; justify-content: space-around; border: 1px solid pink;">
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: space-around; 
+    border: 1px solid pink;
+'>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `space-evenly`
 
-<div style="height: 120px; display: flex; justify-content: space-evenly; border: 1px solid pink;">
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
-    <div style="width: 90px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: space-evenly; 
+    border: 1px solid pink;
+'>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
+    <div style='width: 90px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
  **侧轴对齐:** `align-items`对齐全部元素， `align-self` 对齐选中元素
 
@@ -704,35 +783,71 @@ clearfix::after {
 
 `align-items: center;`
 
-<div style="height: 120px; display: flex; justify-content: center; align-items: center; border: 1px solid pink;">
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    border: 1px solid pink;
+'>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `align-items: flex-start`
 
-<div style="height: 120px; display: flex; justify-content: center; align-items: start; border: 1px solid pink;">
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: start; 
+    border: 1px solid pink;
+'>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `align-items: flex-end`
 
-<div style="height: 120px; display: flex; justify-content: center; align-items: end; border: 1px solid pink;">
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: end; 
+    border: 1px solid pink;
+'>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 `align-self`
 
-<div style="height: 120px; display: flex; justify-content: center; align-items: flex-end; border: 1px solid pink;">
-    <div style="width: 130px; height: 60px; background-color: orange;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange; align-self: center;"></div>
-    <div style="width: 130px; height: 60px; background-color: orange; align-self: flex-start;"></div>
+<iframe srcdoc="
+<div style='
+    height: 120px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-end; 
+    border: 1px solid pink;
+'>
+    <div style='width: 130px; height: 60px; background-color: orange;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange; align-self: center;'></div>
+    <div style='width: 130px; height: 60px; background-color: orange; align-self: flex-start;'></div>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 
 
@@ -772,10 +887,21 @@ clearfix::after {
 
 **代码效果：**
 
-<div style="width: 100px; height: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid black;">
-    <div style="width: 30px; height: 30px; background-color: pink;"></div>
-    <span style="font-size: 15px;">媒体</span>
+<iframe srcdoc="
+<div style='
+    width: 100px; 
+    height: 100px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    border: 1px solid black;
+'>
+    <div style='width: 30px; height: 30px; background-color: pink;'></div>
+    <span style='font-size: 15px;'>媒体</span>
 </div>
+" style="border: none; margin: 0 auto; width: 100%;"></iframe>
+
 
 
 ## postion
@@ -800,7 +926,7 @@ clearfix::after {
 
 
 
-## 字体图标
+## iconfont
 
 展示的是图标，本质是字体,在网页中添加简单的、颜色单一的小图标。
 
@@ -825,7 +951,7 @@ clearfix::after {
 
 
 
-## 过渡 transition
+## transition
 
 作用：可以为一个元素在不同状态之间切换的时候添加过渡效果属性名：transition（复合属性）
 
@@ -851,11 +977,16 @@ div:hover {
 }
 ```
 
-<div style="width: 100px; height: 50px; transition: all 0.5s; background-color: pink;"
-     onmouseover="this.style.width='100%'; this.style.backgroundColor='#af2f2f';"
-     onmouseout="this.style.width='100px'; this.style.backgroundColor='pink';">
+<iframe srcdoc="
+<div style='
+    width: 100px; 
+    height: 50px; 
+    transition: all 0.5s; 
+    background-color: pink;'
+    onmouseover='this.style.width=&quot;100%&quot;; this.style.backgroundColor=&quot;#af2f2f&quot;;'
+    onmouseout='this.style.width=&quot;100px&quot;; this.style.backgroundColor=&quot;pink&quot;;'>
 </div>
-
+" style="border: none; margin: 0 auto; height: 70px; width: 100%;"></iframe>
 
 
 透明度 opacity
@@ -889,25 +1020,18 @@ div:hover {
 
 
 
-## 平面转换
+## transform
 
-- ﻿﻿作用：为元素添加动态效果，一般与过渡配合使用
-- ﻿﻿概念：改变盒子在平面内的形态（位移、旋转、缩放、倾斜）
+|       属性       |     效果     |                             参数                             |
+| :--------------: | :----------: | :----------------------------------------------------------: |
+|    translate     |     平移     | Translate()只写一个值，表示沿着 X轴移动<br />像素单位数值,百分比（参照盒子自身尺寸计算结果 |
+|      rotate      |     旋转     | 角度单位是 deg，取值为正，顺时针旋转，取值为负，逆时针旋转。旋转会改变坐标轴位置 |
+| transform-origin | 改变转换原点 | 方位（left. top、 right. bottom.center）像素单位数值，百分比 |
+|      scale       |     缩放     | 设置一个值，表示X轴和Y轴等比例缩放，取值大于1表示放大，取值小于1表示缩小 |
+|       skew       |     倾斜     |                                                              |
+|     rotate3d     |    3d选择    |              需在父类上添加 `perspective` 属性               |
 
-translate（）只写一个值，表示沿着 X轴移动
-
-单独设置 X或Y 轴移动距离：translateX（） 或 translateY（）
-
-**平面转换-平移**
-
-- ﻿﻿属性
-   transform: translate（X轴移动距离，Y轴移动距离）；
-- ﻿﻿取值
-- ﻿﻿像素单位数值
-   百分比（参照盒子自身尺寸计算结果）
-- ﻿正负均可
-
-![image-20241006004012517](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1728146412-image-20241006004012517.png)
+**平移示例效果**
 
 
 ```css
@@ -936,9 +1060,313 @@ translate（）只写一个值，表示沿着 X轴移动
 </div>
 ```
 
-
-<div style="width: 200px; height: 100px; margin: 0 auto; border: 1px solid black;" 
-     onmouseover="this.children[0].style.transform='translate(100px, 100px)';"
-     onmouseout="this.children[0].style.transform='translate(0, 0)';">
-    <div style="width: 100px; height: 40px; transition: all 0.5s; background-color: pink;"></div>
+<iframe srcdoc="
+<div style='
+    width: 200px; 
+    height: 100px; 
+    margin: 0 auto; 
+    border: 1px solid black;'
+    onmouseover='this.children[0].style.transform=&quot;translate(100px, 100px)&quot;;'
+    onmouseout='this.children[0].style.transform=&quot;translate(0, 0)&quot;;'>
+    <div style='
+        width: 100px; 
+        height: 40px; 
+        transition: all 0.5s; 
+        background-color: pink;'>
+    </div>
 </div>
+" style="border: none; margin: 0 auto; height: 150px; width: 100%;"></iframe>
+
+
+
+**旋转示例效果** 
+
+```html
+<div>
+  <div class="rotate-1">
+  </div>
+  <div class="rotate-2">
+  </div>
+</div>
+```
+
+```css
+div>div {
+    width: 50px;
+    height: 50px;
+    background-color: skyblue;
+    transition: all 3s;
+}
+
+div .rotate-1:hover {
+    transform: translateX(500px) rotate(720deg);
+}
+
+div .rotate-2:hover {
+    transform: translateX(500px) rotate(-720deg);
+}
+```
+
+<iframe srcdoc="
+<div style='
+    width: 50px; 
+    height: 50px; 
+    margin: 0 auto;
+    background-color: skyblue; 
+    transition: all 3s;'
+    onmouseover='this.style.transform=&quot;translateX(200px) rotate(720deg)&quot;'
+    onmouseout='this.style.transform=&quot;&quot;'>
+</div>
+<div style='
+    width: 50px; 
+    height: 50px; 
+    margin: 0 auto;
+    background-color: skyblue; 
+    transition: all 3s; 
+    margin-top: 10px;'
+    onmouseover='this.style.transform=&quot;translateX(200px) rotate(-720deg)&quot;'
+    onmouseout='this.style.transform=&quot;&quot;'>
+</div>
+<div style='
+    width: 50px; 
+    height: 50px; 
+    margin: 0 auto;
+    background-color: skyblue; 
+    transition: all 30s; 
+    margin-top: 10px;'
+    onmouseover='this.style.transform=&quot;rotate(7200deg)&quot;'
+    onmouseout='this.style.transform=&quot;&quot;'>
+</div>
+" style="border: none; height: 200px; width: 100%;"></iframe>
+
+**改变转换原点示例效果**
+
+```css
+.origin {
+    width: 50px;
+    height: 50px;
+    background-color: skyblue;
+    transition: all 10s;
+    transform-origin: right bottom;
+}
+
+.origin:hover {
+    transform: rotate(3600deg)
+}
+```
+
+<iframe srcdoc="
+<div style='
+    width: 50px; 
+    height: 50px; 
+    margin: 0 auto;
+    background-color: skyblue; 
+    transition: all 10s; 
+    transform-origin: right bottom;'
+    onmouseover='this.style.transform=&quot;rotate(3600deg)&quot;' 
+    onmouseout='this.style.transform=&quot;&quot;'>
+</div>
+" style="border: none; width: 100%;"></iframe>
+
+
+
+
+**缩放﻿﻿效果示例**
+
+```css
+.scale {
+    width: 50px;
+    height: 50px;
+    background-color: pink;
+    transition: all 0.5s;
+    margin: 0 auto;
+}
+
+.scale:hover {
+    transform: scale(2);
+}
+```
+
+<iframe srcdoc="
+<div style='
+    width: 50px; 
+    height: 50px; 
+    background-color: pink; 
+    transition: all 0.5s; 
+    margin-top: 40px;
+    margin: 0 auto;'
+    onmouseover='this.style.transform=&quot;scale(2)&quot;' 
+    onmouseout='this.style.transform=&quot;&quot;'>
+</div>
+" style="border: none; height: 140px; width: 100%;"></iframe>
+
+
+
+**倾斜效果示例**
+
+```css
+.skew {
+    width: 50px;
+    height: 50px;
+    background-color: pink;
+    transition: all 0.5s;
+    margin: 0 auto;
+}
+
+.skew:hover {
+    transform: skew(40deg);
+}
+```
+
+<iframe srcdoc="
+<div style='
+    width: 50px; 
+    height: 50px; 
+    background-color: pink; 
+    transition: all 0.5s; 
+    margin: 0 auto;'
+    onmouseover='this.style.transform=&quot;skew(40deg)&quot;' 
+    onmouseout='this.style.transform=&quot;&quot;'>
+</div>
+" style="border: none; width: 100%;"></iframe>
+
+**3d旋转**
+
+```css
+.box-3d {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+.box-3d div {
+    width: 50px;
+    height: 50px;
+    margin-top: 20px;
+    background-color: pink;
+    transition: all .3s;
+}
+.box-3d>.bx:hover {
+    transform: rotateX(40deg);
+}
+.box-3d>.by:hover {
+    transform: rotateY(40deg);
+}
+.box-3d>.bz:hover {
+    transform: rotateZ(40deg);
+}
+```
+
+<iframe srcdoc="
+<div class='box-3d'>
+    <div class='bx'></div>
+    <div class='by'></div>
+    <div class='bz'></div>
+</div>
+<style>
+    .box-3d {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        perspective: 1000px;
+    }
+    .box-3d div {
+        width: 50px;
+        height: 50px;
+        margin-top: 20px;
+        background-color: pink;
+        transition: all .3s;
+    }
+    .box-3d>.bx:hover {
+        transform: rotateX(40deg);
+    }
+    .box-3d>.by:hover {
+        transform: rotateY(40deg);
+    }
+    .box-3d>.bz:hover {
+        transform: rotateZ(40deg);
+    }
+</style>
+" style="border: none; height: 250px; width: 100%;"></iframe>
+
+
+
+## gradient
+
+**线性渐变**
+
+```css
+div {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 50px;
+    background-image: linear-gradient(
+        30deg,
+        pink,
+        skyblue
+    );
+}
+```
+
+<iframe srcdoc="
+<div style='
+    width: 100px; 
+    height: 100px; 
+    margin: 0 auto; 
+    border-radius: 50px; 
+    background-image: linear-gradient(30deg, pink, skyblue);'>
+</div>
+" style="border: none; width: 100%;"></iframe>
+
+
+
+**径向渐变**
+
+```css
+.radial {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 50px;
+
+    background-image: radial-gradient(
+        50px at center center,
+        red,
+        pink
+    );
+
+    /* 椭圆 */
+    background-image: radial-gradient(
+        50px 20px at center center,
+        red,
+        rgba(231, 127, 162, 0.2)
+    );
+}
+```
+
+<iframe srcdoc="
+<div style='
+    width: 100px; 
+    height: 100px; 
+    margin: 0 auto; 
+    border-radius: 50px; 
+    background-image: radial-gradient(50px at center center, red, pink);'>
+</div>
+<div style='
+    width: 100px; 
+    height: 100px; 
+    margin: 0 auto; 
+    border-radius: 50px; 
+    background-image: radial-gradient(50px 20px at center center, red, rgba(231, 127, 162, 0.2));'>
+</div>
+" style="border: none; height: 220px; width: 100%;"></iframe>
+
+
+
+
+
+
+
+

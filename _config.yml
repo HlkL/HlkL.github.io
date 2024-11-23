@@ -117,11 +117,6 @@ feed:
   autodiscovery: true
   template:
 
-lazyload:
-  enable: true
-  onlypost: false # optional
-  loadingImg: # optional eg ./images/loading.gif
-  isSPA: false # optional
 
 search:
   path: search.xml

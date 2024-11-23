@@ -1,9 +1,10 @@
 ---
 title: linux学习笔记
-date: 2021-11-23 08:02:14
-updated: 2021-11-23 08:02:14
 tags:
   - devops
+abbrlink: 9dafd965
+date: 2021-11-23 08:02:14
+updated: 2021-11-23 08:02:14
 ---
 
 ## 基础命令

@@ -1,9 +1,10 @@
 ---
 title: 手写简易web框架实现
-date: 2024-07-08 00:18:01
-updated: 2024-07-08 00:18:01
 tags:
   - golang
+abbrlink: 55c5d673
+date: 2024-07-08 00:18:01
+updated: 2024-07-08 00:18:01
 ---
 
 ## hello,elf-web

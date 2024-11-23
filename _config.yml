@@ -18,7 +18,7 @@ post_time: false
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://hougen.fun/
 root: /
-permalink: :title.html
+permalink: /:abbrlink.html
 permalink_defaults:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
@@ -122,3 +122,7 @@ search:
   path: search.xml
   field: post
   content: true
+
+abbrlink:
+  alg: crc32  # 算法：crc16(default) and crc32
+  rep: hex    # 进制：dec(default) and hex

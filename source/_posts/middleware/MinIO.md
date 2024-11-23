@@ -1,9 +1,10 @@
 ---
 title: minio
-date: 2023-10-17 10:48:13
-updated: 2023-10-17 10:48:13
 tags:
   - middleware
+abbrlink: cad5b665
+date: 2023-10-17 10:48:13
+updated: 2023-10-17 10:48:13
 ---
 
 docker 部署minio

@@ -1,9 +1,10 @@
 ---
 title: kafka
-date: 2023-11-24 16:18:57
-updated: 2023-11-24 16:18:57
 tags:
   - middleware
+abbrlink: 5bbc7517
+date: 2023-11-24 16:18:57
+updated: 2023-11-24 16:18:57
 ---
 
 ![](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1694616349-v2-3dcea486411d1c92d05eaebca9279cd3_1440w.awebp)

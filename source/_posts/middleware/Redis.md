@@ -1,9 +1,10 @@
 ---
 title: redis
-date: 2022-11-07 17:42:09
-updated: 2022-11-07 17:42:09
 tags:
   - middleware
+abbrlink: 7b25d017
+date: 2022-11-07 17:42:09
+updated: 2022-11-07 17:42:09
 ---
 
 

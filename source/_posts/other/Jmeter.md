@@ -1,8 +1,9 @@
 ---
 title: Jmeter快速入门
-date: 2023-03-17 12:24:49
 tags:
   - other
+abbrlink: '27717283'
+date: 2023-03-17 12:24:49
 ---
 # Jmeter快速入门
 

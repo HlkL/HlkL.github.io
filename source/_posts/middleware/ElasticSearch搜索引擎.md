@@ -1,9 +1,10 @@
 ---
 title: elasticSearch
-date: 2022-12-30 17:28:57
-updated: 2022-12-30 17:28:57
 tags:
   - middleware
+abbrlink: 67ff7926
+date: 2022-12-30 17:28:57
+updated: 2022-12-30 17:28:57
 ---
 
 ## ElasticSearch

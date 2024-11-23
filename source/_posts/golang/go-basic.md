@@ -1,9 +1,10 @@
 ---
 title: golang快速入门
-date: 2024-06-09 12:13:49
-updated: 2024-06-09 12:13:49
 tags:
   - golang
+abbrlink: 112e94a1
+date: 2024-06-09 12:13:49
+updated: 2024-06-09 12:13:49
 ---
 
 

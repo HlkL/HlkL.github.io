@@ -1,9 +1,10 @@
 ---
 title: mybatis框架学习
-date: 2022-11-02 15:34:22
-updated: 2022-11-02 15:34:22
 tags:
   - framework
+abbrlink: 89668cae
+date: 2022-11-02 15:34:22
+updated: 2022-11-02 15:34:22
 ---
 
 #### Maven导入jar包

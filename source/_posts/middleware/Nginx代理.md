@@ -1,9 +1,10 @@
 ---
 title: nginx安装以及代理
-date: 2023-03-17 11:51:11
-updated: 2023-03-17 11:51:11
 tags:
   - middleware
+abbrlink: 560dc0a5
+date: 2023-03-17 11:51:11
+updated: 2023-03-17 11:51:11
 ---
 
 #### Nginx

@@ -1,8 +1,9 @@
 ---
 title: 使用vitePress搭建个人博客
-date: 2024-03-17 10:17:37
 tags:
   - other
+abbrlink: 6c7cfc7a
+date: 2024-03-17 10:17:37
 ---
 
 [VitePress](https://vitepress.dev/zh/) 使用 Markdown 编写的源内容，生成可以轻松部署在任何地方的静态 HTML 页面。

@@ -1,9 +1,10 @@
 ---
 title: 分布式限流框架sentinel使用
-date: 2023-01-27 14:32:56
-updated: 2023-01-27 14:32:56
 tags:
   - framework
+abbrlink: ce892c41
+date: 2023-01-27 14:32:56
+updated: 2023-01-27 14:32:56
 ---
 
 ## 雪崩问题

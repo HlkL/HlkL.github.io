@@ -1,9 +1,10 @@
 ---
 title: threadLocal源码分析
-date: 2024-04-09 11:53:01
-updated: 2024-04-09 11:53:01
 tags:
   - java
+abbrlink: 247f88e
+date: 2024-04-09 11:53:01
+updated: 2024-04-09 11:53:01
 ---
 
 > ThreadLocal 类用来提供线程内部的局部变量，这种变量在多线程环境下访问（通过 get 和 set 方法访问）时能保证各个线程的变量相对独立于其他线程内的变量，分配在堆内的 **TLAB** 中，ThreadLocal 实例通常来说都是 `private static` 类型的，属于一个线程的本地变量，用于关联线程和线程上下文。每个线程都会在 ThreadLocal 中保存一份该线程独有的数据，所以是线程安全的

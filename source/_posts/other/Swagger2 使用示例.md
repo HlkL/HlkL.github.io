@@ -1,8 +1,9 @@
 ---
 title: Swagger2使用
-date: 2023-04-23 15:17:37
 tags:
   - other
+abbrlink: 3216dee9
+date: 2023-04-23 15:17:37
 ---
 
 ### Swagger2 使用示例

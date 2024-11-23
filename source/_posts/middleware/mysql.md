@@ -1,9 +1,10 @@
 ---
 title: mysql
-date: 2024-04-12 13:56:45
-updated: 2024-04-12 13:56:45
 tags:
   - middleware
+abbrlink: 9520183a
+date: 2024-04-12 13:56:45
+updated: 2024-04-12 13:56:45
 ---
 
 ## SQL

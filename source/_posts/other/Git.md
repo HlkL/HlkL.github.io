@@ -1,8 +1,9 @@
 ---
 title: git
-date: 2023-03-17 12:24:49
 tags:
   - other
+abbrlink: 518e617c
+date: 2023-03-17 12:24:49
 ---
 
 1. 设置用户信息

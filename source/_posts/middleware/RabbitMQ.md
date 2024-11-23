@@ -1,9 +1,10 @@
 ---
 title: rabbitMQ
-date: 2022-12-27 19:31:59
-updated: 2022-12-27 19:31:59
 tags:
   - middleware
+abbrlink: 4c35ac86
+date: 2022-12-27 19:31:59
+updated: 2022-12-27 19:31:59
 ---
 
 ![image-20221227193159640](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1710676316-5460d89f94a72806d149d6fe19a51497c88bf10c.png)

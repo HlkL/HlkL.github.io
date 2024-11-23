@@ -8,3 +8,4 @@ dist-ssr
 *.local
 db.json
 .gitignore
+public

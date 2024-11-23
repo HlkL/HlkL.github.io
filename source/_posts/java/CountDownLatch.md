@@ -1,9 +1,10 @@
 ---
 title: countDownLatch使用
-date: 2023-05-14 16:08:23
-updated: 2023-05-14 16:08:23
 tags:
   - java
+abbrlink: c75ed573
+date: 2023-05-14 16:08:23
+updated: 2023-05-14 16:08:23
 ---
 
 `CountDownLatch`一般用作多线程倒计时计数器，强制它们等待其他一组（`CountDownLatch`的初始化决定）任务执行完成，`CountDownLatch`初始化后计数器值递减到0的时候，不能再复原的。

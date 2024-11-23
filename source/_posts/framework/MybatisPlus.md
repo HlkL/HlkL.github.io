@@ -1,9 +1,10 @@
 ---
 title: mybatisPlus框架学习
-date: 2022-11-16 10:14:22
-updated: 2022-11-16 10:14:22
 tags:
   - framework
+abbrlink: de3de5cc
+date: 2022-11-16 10:14:22
+updated: 2022-11-16 10:14:22
 ---
 
 ![img](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1710677110-4c8f42ff25bb8862d8fdf5a7042613631cb8516e.png)

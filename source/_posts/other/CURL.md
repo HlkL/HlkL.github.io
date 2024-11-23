@@ -1,9 +1,10 @@
 ---
 title: CURL命令
-date: 2023-01-01 12:13:49
-updated: 2023-01-01 12:13:49
 tags:
   - other
+abbrlink: 7fc4172
+date: 2023-01-01 12:13:49
+updated: 2023-01-01 12:13:49
 ---
 
 [curl 是常用的命令行工具，用来请求 Web 服务器](https://baike.baidu.com/item/curl/10098606)

@@ -1,9 +1,10 @@
 ---
 title: web框架gin快速上手
-date: 2024-06-25 22:11:01
-updated: 2024-06-25 22:11:01
 tags:
   - golang
+abbrlink: a8d89ff8
+date: 2024-06-25 22:11:01
+updated: 2024-06-25 22:11:01
 ---
 
 官方文档： https://gin-gonic.com/zh-cn/

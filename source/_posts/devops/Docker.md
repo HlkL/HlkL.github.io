@@ -1,9 +1,10 @@
 ---
 title: docker
-date: 2022-10-23 10:32:44
-updated: 2022-10-23 10:32:44
 tags:
   - devops
+abbrlink: f255ffad
+date: 2022-10-23 10:32:44
+updated: 2022-10-23 10:32:44
 ---
 
 # CentOS7安装docker

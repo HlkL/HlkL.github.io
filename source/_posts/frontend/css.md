@@ -91,7 +91,8 @@ div {
 <iframe srcdoc='
 <font size=20px>id选择器<br></font>
 <font size=20px color=red>通配符选择器</font>
-' style="border: none; margin: 0 auto;"></iframe>
+' style="border: none; height: 200px; width: 100%"></iframe>
+
 
 3. **复合选择器**
 
@@ -1030,7 +1031,7 @@ div:hover {
 | transform-origin | 改变转换原点 | 方位（left. top、 right. bottom.center）像素单位数值，百分比 |
 |      scale       |     缩放     | 设置一个值，表示X轴和Y轴等比例缩放，取值大于1表示放大，取值小于1表示缩小 |
 |       skew       |     倾斜     |                                                              |
-|     rotate3d     |    3d选择    |              需在父类上添加 `perspective` 属性               |
+|     rotate3d     |    3d旋转    |              需在父类上添加 `perspective` 属性               |
 
 **平移示例效果**
 
@@ -1139,7 +1140,6 @@ div .rotate-2:hover {
     onmouseout='this.style.transform=&quot;&quot;'>
 </div>
 " style="border: none; height: 200px; width: 100%;"></iframe>
-
 **改变转换原点示例效果**
 
 ```css
@@ -1292,6 +1292,80 @@ div .rotate-2:hover {
 " style="border: none; height: 250px; width: 100%;"></iframe>
 
 
+**立体呈现transform-style**
+
+```css
+.cube {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+
+    transition: all 2s;
+    transform-style: preserve-3d;
+}
+
+.cube>div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 200px;
+}
+
+.cube > .front {
+    transform: translateZ(100px);
+    background-color: pink;
+}
+
+.cube > .back {
+    transform: translateZ(-100px);
+    background-color: skyblue;
+}
+
+.cube:hover {
+    transform: rotateY(260deg);
+}
+```
+
+<iframe srcdoc="<div class='cube'>
+    <div class='front'>front</div>
+    <div class='back'>back</div>
+</div><style>.cube {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 20px auto;
+        transition: all 2s;
+        transform-style: preserve-3d;
+    }.cube > div {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 200px;
+        height: 200px;
+    }.cube > .front {
+        transform: translateZ(100px);
+        background-color: pink;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        color: black;
+    }.cube > .back {
+        transform: translateZ(-100px);
+        background-color: skyblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        color: black;
+    }.cube:hover {
+        transform: rotateY(260deg);
+    }</style>" style="border: none; height: 240px; width: 100%;"></iframe>
+
+
+
 
 ## gradient
 
@@ -1365,11 +1439,168 @@ div {
 " style="border: none; height: 220px; width: 100%;"></iframe>
 
 
+## animation
+
+![image-20241123231239639](https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1732376173-1732374759-image-20241123231239639.png)
+
+过渡：实现两个状态间的变化过程
+
+动画：实现多个状态间的变化过程，动画过程可控（重复播放、最终画面、是否暂停）
+
+- ﻿﻿动画名称和动画时长必须赋值
+- ﻿﻿取值不分先后顺序
+- ﻿﻿如果有两个时间值，第一个时间表示动画时长，第二个时间表示延迟时间
+
+> animation：动画名称 动画时长 速度曲线 延迟时间 重复次数 动画方向 执行完毕时状态；
+
+| 动画拆分属性              | 作用               | 取值                                         |
+| :------------------------ | :----------------- | -------------------------------------------- |
+| animation-name            | 动画名称           |                                              |
+| animation-duration        | 动画时长           |                                              |
+| animation-delay           | 延迟时间           |                                              |
+| animation-fill-mode       | 动画执行完毕时状态 | forwards：最后一帧状态 backwards：第一帧状态 |
+| animation-timing-function | 速度曲线           | steps（数字）：逐帧动画                      |
+| animation-iteration-count | 重复次数           | infinite为无限循环                           |
+| animation-direction       | 动画执行方向       | alternate为反向                              |
+| animation-play-state      | 暂停动画           | paused为暂停，通常配合：hover使用            |
+
+**跑马灯效果示例**
+
+```html
+<div class="box">
+    <ul>
+      	<!-- 省略多个li标签 -->
+        <li>
+            <div></div>
+        </li>
+    <ul>
+</div>
+```
+
+```css
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.box {
+    width: 250px;
+    height: 70px;
+    margin: 20px auto;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.box>ul {
+    display: flex;
+    animation: move 3s infinite linear;
+}
+
+.box:hover>ul {
+    animation-play-state: paused;
+}
+
+@keyframes move {
+    0% {
+        transform: translate(0);
+    }
+
+    100% {
+        transform: translate(-350px);
+    }
+}
+
+.box>ul>li>div {
+    width: 50px;
+    height: 70px;
+}
+/* 省略多个li标签 */
+.box>ul>li:nth-child(1) {
+    background-color: pink;
+}
+```
+
+<iframe srcdoc="<div class='box'><ul>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li>
+<li><div></div></li></ul></div><style>ul {
+list-style-type: none;
+padding: 0;
+margin: 0;}.box {
+width: 250px;
+height: 70px;
+margin: 20px auto;
+border-radius: 5px;
+overflow: hidden;}.box>ul {
+display: flex;animation: move 3s infinite linear;
+}.box:hover>ul {
+animation-play-state: paused;
+}@keyframes move {
+0% {transform: translate(0);}100% {
+    transform: translate(-350px);}
+}.box>ul>li>div {
+width: 50px;
+height: 70px;}.box>ul>li:nth-child(1) {background-color: pink;}.box>ul>li:nth-child(2) {
+background-color: rgb(220, 36, 67);}.box>ul>li:nth-child(3) {
+background-color: rgb(120, 201, 92);}.box>ul>li:nth-child(4) {
+background-color: rgb(50, 147, 188);}.box>ul>li:nth-child(5) {
+background-color: rgb(97, 85, 226);}.box>ul>li:nth-child(6) {
+background-color: rgb(12, 2, 119);}.box>ul>li:nth-child(7) {
+background-color: rgb(233, 52, 212);}.box>ul>li:nth-child(8) {
+background-color: pink;}.box>ul>li:nth-child(9) {
+background-color: rgb(220, 36, 67);}.box>ul>li:nth-child(10) {
+background-color: rgb(120, 201, 92);}.box>ul>li:nth-child(11) {
+background-color: rgb(50, 147, 188);}.box>ul>li:nth-child(12) {
+background-color: rgb(97, 85, 226);}</style>
+" style="border: none; height: 120px; width: 100%;"></iframe>
 
 
 
 
 
+**精灵动画**
+
+```css
+.elf {
+    width: 140px;
+    height: 140px;
+    margin: 20px auto;
+    border-radius: 5px;
+    background-image: url('https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1732383377-bg.png');
+    animation: run .8s steps(12) infinite;
+}
+
+@keyframes run {
+    from{
+        background-position: 0 0;
+    }
+    to{
+        background-position: -1680 0;
+    }
+}
+```
+
+<iframe srcdoc="<div class='elf'></div>
+<style>.elf {
+        width: 140px;
+        height: 140px;
+        margin: 20px auto;
+        background-image: url('https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/1732383377-bg.png');
+        animation: run 1s steps(12) infinite;}@keyframes run {
+        from {background-position: 0 0;}
+        to {background-position: -1680px 0;}
+    }</style>
+    " style="border: none; height: 180px; width: 100%;"></iframe>
 
 
 

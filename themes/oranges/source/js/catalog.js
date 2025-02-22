@@ -67,3 +67,28 @@ document.addEventListener("scroll", changePos, false);
 document.addEventListener("scroll", isActiveCat, false);
 window.addEventListener("resize", handleResize, false);
 document.querySelector("#btn-catalog").addEventListener("click", openOrHiddenCatalog, false);
+
+// 点击目录项时的平滑滚动
+document.addEventListener('DOMContentLoaded', () => {
+  const tocLinks = document.querySelectorAll('.toc-link');
+  
+  tocLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const targetId = link.getAttribute('href').slice(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        // 使用平滑滚动
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        // 更新 URL
+        history.pushState(null, null, `#${targetId}`);
+      }
+    });
+  });
+});

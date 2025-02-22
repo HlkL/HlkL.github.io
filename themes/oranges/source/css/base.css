@@ -516,6 +516,7 @@ a:hover {
   padding: 3px 5px;
   opacity: 0.8;
   border-left: 2px solid transparent;
+  transition: color 0.3s ease;
 }
 
 .toc-link.active {
@@ -532,6 +533,7 @@ a:hover {
   height: 69%;
   background-color: gray;
   opacity: 0.45;
+  transition: opacity 0.3s ease, width 0.3s ease;
 }
 
 .toc-link.active::after {
@@ -543,6 +545,7 @@ a:hover {
   height: 69%;
   background-color: gray;
   opacity: 0.55;
+  transition: opacity 0.3s ease, width 0.3s ease;
 }
 
 .search-overlay {
@@ -785,4 +788,25 @@ a:hover {
   background: var(--color-reading-progress-bar);
   z-index: 99999;
   transition: width 0.1s ease;
+}
+
+/* 移除全局滚动设置 */
+html {
+  scroll-behavior: auto;
+}
+
+/* 目录点击滚动效果 */
+.post-content {
+  scroll-behavior: smooth;
+  scroll-duration: 300ms;
+}
+
+/* 目录链接过渡效果 */
+.toc-link {
+  transition: color 0.3s ease;
+}
+
+/* 目录激活状态的过渡效果 */
+.toc-link::after {
+  transition: opacity 0.3s ease, width 0.3s ease;
 }

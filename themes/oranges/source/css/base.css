@@ -198,6 +198,34 @@ a:hover {
   text-overflow: ellipsis;
 }
 
+.post-item .title a {
+  position: relative;
+  display: inline-block;
+  color: var(--color-text-a);
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.post-item .title a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--color-text-a-title);
+  transition: width 0.3s ease;
+  opacity: .3;
+}
+
+.post-item .title a:hover {
+  color: var(--color-text-a);
+}
+
+.post-item .title a:hover::after {
+  width: 100%;
+}
+
 .post-item .title .post-top {
   font-weight: 600;
   font-size: 1.7rem;
@@ -221,10 +249,7 @@ a:hover {
 }
 
 .avatar .nickname {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--color-text-a);
-  padding-top: 10px;
+  display: none;
 }
 
 .content {

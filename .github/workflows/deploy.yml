@@ -9,32 +9,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Cleanup workspace
+        run: |
+          rm -rf ./* || true
+          rm -rf ./.* || true
+          
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_PAGES_TOKEN }}
           submodules: recursive
+          clean: true  # 确保干净检出
+          
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Cache NPM dependencies
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-npm-cache
-          restore-keys: |
-            ${{ runner.OS }}-npm-cache
+          cache: 'npm'  # 移除 npm 缓存
+          
+      # 清理 npm 缓存
+      - name: Clear NPM cache
+        run: |
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
+          
       - name: Install Dependencies
         run: npm install
+        
       - name: Clean and Generate Hexo files
         run: |
           npm install hexo-cli -g
           hexo clean
           hexo generate
+          
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
+
   deploy:
     needs: build
     permissions:
@@ -42,7 +53,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://hougen.fun
+      url: https://hougenn.com
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages

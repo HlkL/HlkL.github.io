@@ -21,6 +21,7 @@
   --color-border-md-table: #dfe2e5;
   --waline-bg-color-light: #fff;
   --post-catalog-bg: #fff;
+  --color-text-a-title: rgb(35, 206, 235);
 }
 
 /* dark scheme */
@@ -49,4 +50,5 @@
   --waline-bg-color-light: #343946;
   --waline-border-color: #333;
   --waline-color: #fff;
+  --color-text-a-title: rgb(207, 215, 216);
 }

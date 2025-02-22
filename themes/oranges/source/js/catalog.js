@@ -76,18 +76,38 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       
-      const targetId = link.getAttribute('href').slice(1);
+      const targetId = decodeURIComponent(link.getAttribute('href').slice(1));
       const targetElement = document.getElementById(targetId);
       
       if (targetElement) {
-        // 使用平滑滚动
+        // 立即更新目录激活状态
+        document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        
+        // 立即更新 URL
+        history.pushState(null, null, `#${targetId}`);
+        
+        // 平滑滚动到目标位置
         targetElement.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         });
-        
-        // 更新 URL
-        history.pushState(null, null, `#${targetId}`);
+      } else {
+        // 模糊匹配处理
+        const headers = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        for (const header of headers) {
+          if (header.textContent.trim() === link.textContent.trim()) {
+            // 立即更新目录激活状态
+            document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            
+            header.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            break;
+          }
+        }
       }
     });
   });

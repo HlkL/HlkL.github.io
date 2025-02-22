@@ -721,3 +721,68 @@ a:hover {
   line-height: 1rem;
   white-space: nowrap;
 }
+
+/* 加载动画容器 */
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-body);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease-out;
+}
+
+/* 加载完成后的样式 */
+.loading-finished {
+  opacity: 0;
+}
+
+/* 加载动画样式 */
+.loading-spinner {
+  display: flex;
+  gap: 8px;
+}
+
+.loading-spinner .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-text-a);
+  animation: bounce 0.5s ease-in-out infinite;
+}
+
+.loading-spinner .dot:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-spinner .dot:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+/* 弹跳动画 */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* 阅读进度条 */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--color-text-a-title);
+  background: var(--color-reading-progress-bar);
+  z-index: 99999;
+  transition: width 0.1s ease;
+}

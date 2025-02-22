@@ -61,6 +61,7 @@
   <% if (!page.type) { %>
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
+    <%- partial('_partial/readingbar') %>
     <div class="post-content">
       <div class="post-title"><%- page.title %></div>
       <div class="post-attach">

@@ -22,6 +22,7 @@
   --waline-bg-color-light: #fff;
   --post-catalog-bg: #fff;
   --color-text-a-title: rgb(35, 206, 235);
+  --color-reading-progress-bar: rgb(212, 241, 246);
 }
 
 /* dark scheme */
@@ -51,4 +52,5 @@
   --waline-border-color: #333;
   --waline-color: #fff;
   --color-text-a-title: rgb(207, 215, 216);
+  --color-reading-progress-bar: rgb(207, 215, 216);
 }

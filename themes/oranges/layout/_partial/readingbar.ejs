@@ -1,0 +1,11 @@
+<div class="reading-progress-bar"></div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const readingBar = document.querySelector('.reading-progress-bar');
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPercent = (window.scrollY / docHeight) * 100;
+    
+    readingBar.style.width = scrollPercent + '%';
+  });
+</script>

@@ -1,0 +1,19 @@
+<% if (is_post()) { %>
+  <div class="loading-container">
+    <div class="loading-spinner">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.querySelector('.loading-container');
+      loader.classList.add('loading-finished');
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 100);
+    });
+  </script>
+<% } %>

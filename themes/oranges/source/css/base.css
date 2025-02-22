@@ -236,6 +236,7 @@ a:hover {
   font-size: 1.6rem;
   color: var(--color-text-a);
   margin-bottom: 20px;
+  text-align: center;
   /*font-family: 'Raleway', 'Helvetica Neue', 'Arial', sans-serif;*/
 }
 

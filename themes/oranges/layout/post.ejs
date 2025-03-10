@@ -101,15 +101,48 @@
         } %>
       </div>
       <div class="markdown-body">
-        <%- page.content %>
+        <script>
+          function handleImageError(img) {
+            const container = document.createElement('div');
+            container.className = 'image-loading-container';
+            
+            const text = document.createElement('div');
+            text.className = 'image-loading-text';
+            text.textContent = '图片正玩命加载中 (｀・ω・´)';
+
+            // 30秒后显示加载失败
+            setTimeout(() => {
+              text.textContent = '图片加载失败 (≧△≦)ノ゙';
+              
+              const originalUrl = document.createElement('div');
+              originalUrl.className = 'image-loading-url';
+              originalUrl.textContent = '原始链接: ' + img.src;
+              container.appendChild(originalUrl);
+            }, 30000);
+            
+            container.appendChild(text);
+            
+            img.parentNode.replaceChild(container, img);
+          }
+          
+          document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.markdown-body img');
+            images.forEach(img => {
+              img.onerror = function() {
+                handleImageError(this);
+              };
+            });
+          });
+        </script>
+        <%- page.content.replace(/<img/g, '<img onerror="handleImageError(this)"') %>
       </div>
       <% if(theme.prevnext.enable) { %>
         <div class="prev-or-next">
           <div class="post-foot-next">
-            <% if(page.next) { %>
-              <a href="<%- url_for(page.next.path) %>" target="_self">
+            <% if(page.prev) { %>
+              <a href="<%- url_for(page.prev.path) %>" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
-                <span><%= __('prev') %></span>
+                <span><%- page.prev.title %></span>
               </a>
             <% } %>
           </div>
@@ -150,9 +183,9 @@
             } %>
           </div>
           <div class="post-foot-prev">
-            <% if(page.prev) { %>
-              <a href="<%- url_for(page.prev.path) %>" target="_self">
-                <span><%= __('next') %></span>
+            <% if(page.next) { %>
+              <a href="<%- url_for(page.next.path) %>" target="_self">
+                <span><%- page.next.title %></span>
                 <i class="iconfont icon-chevronright"></i>
               </a>
             <% } %>

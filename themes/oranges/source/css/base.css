@@ -810,3 +810,26 @@ html {
 .toc-link::after {
   transition: opacity 0.3s ease, width 0.3s ease;
 }
+
+/* 图片加载失败样式 */
+.image-loading-container {
+  border: 1px dashed #ccc;
+  padding: 20px;
+  margin: 10px 0;
+  text-align: center;
+  color: #999;
+  background: var(--bg-body);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.image-loading-text {
+  margin-bottom: 5px;
+}
+
+.image-loading-url {
+  font-size: 12px;
+  margin-top: 5px;
+  word-break: break-all;
+  color: #666;
+}

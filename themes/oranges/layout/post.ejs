@@ -101,40 +101,7 @@
         } %>
       </div>
       <div class="markdown-body">
-        <script>
-          function handleImageError(img) {
-            const container = document.createElement('div');
-            container.className = 'image-loading-container';
-            
-            const text = document.createElement('div');
-            text.className = 'image-loading-text';
-            text.textContent = '图片正玩命加载中 (｀・ω・´)';
-
-            // 30秒后显示加载失败
-            setTimeout(() => {
-              text.textContent = '图片加载失败 (≧△≦)ノ゙';
-              
-              const originalUrl = document.createElement('div');
-              originalUrl.className = 'image-loading-url';
-              originalUrl.textContent = '原始链接: ' + img.src;
-              container.appendChild(originalUrl);
-            }, 30000);
-            
-            container.appendChild(text);
-            
-            img.parentNode.replaceChild(container, img);
-          }
-          
-          document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('.markdown-body img');
-            images.forEach(img => {
-              img.onerror = function() {
-                handleImageError(this);
-              };
-            });
-          });
-        </script>
-        <%- page.content.replace(/<img/g, '<img onerror="handleImageError(this)"') %>
+        <%- page.content %>
       </div>
       <% if(theme.prevnext.enable) { %>
         <div class="prev-or-next">

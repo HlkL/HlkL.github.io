@@ -16,7 +16,7 @@ date: false
 post_time: false
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://hougen.fun/
+url: https://hougenn.com/
 root: /
 permalink: :abbrlink.html
 permalink_defaults:
@@ -126,3 +126,9 @@ search:
 abbrlink:
   alg: crc32  # 算法：crc16(default) and crc32
   rep: hex    # 进制：dec(default) and hex
+
+lazyload:
+  enable: true  # 是否开启图片懒加载
+  onlypost: false  # 是否只对文章的图片做懒加载
+  loadingImg: # eg ./images/loading.gif
+  isSPA: false

@@ -1,0 +1,42 @@
+.image-loading-container {
+  border: 1px dashed #ccc;
+  padding: 20px;
+  margin: 10px 0;
+  text-align: center;
+  background: var(--bg-body);
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.3s ease forwards;
+  pointer-events: none; /* 禁用鼠标事件 */
+}
+
+.image-loading-text {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(5px);
+  animation: fadeInUp 0.3s ease forwards 0.3s;
+}
+
+.image-loading-url {
+  font-size: 14px;
+  color: #999;
+  word-break: break-all;
+  opacity: 0;
+  transform: translateY(5px);
+  animation: fadeInUp 0.4s ease forwards 0.7s;
+  user-select: text; /* 允许选择文本 */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

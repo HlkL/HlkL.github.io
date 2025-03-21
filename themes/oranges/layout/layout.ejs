@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="<%= config.language %>" color-mode="light">
+<head>
+  <%- partial('_partial/head') %>
+  <!-- 图片错误处理样式 -->
+  <link rel="stylesheet" href="/css/image-error.css">
+</head>
 
   <%- partial('_partial/loading-pages') %>
   <%- partial('_partial/header') %>
@@ -23,6 +28,8 @@
         <%- partial('_partial/shares') %>
       </div>
     </div>
+    <!-- 图片错误处理脚本 -->
+    <script src="/js/imageError.js"></script>
   </body>
   <!-- <%- partial('_partial/loading-pages') %> -->
 </html>

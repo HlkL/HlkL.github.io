@@ -74,7 +74,7 @@ comments:
   # waline https://waline.js.org
   waline:
     enable: true
-    serverURL: https://waline-git-main-hlkls-projects.vercel.app
+    serverURL: https://waline.hougenn.cn
 
 # 主题页面导航栏
 navbar:
@@ -120,11 +120,11 @@ footer:
     -
       name: docker-mirror
       icon: docker
-      path: https://docker-mirror.9crp9mzt5x.workers.dev
+      path: https://docker-mirror.trailbits.cn
     -
       name: gemini-ai
       icon: sijiaoxing
-      path: https://ai.hougen.fun
+      path: https://ai.trailbits.cn
     -
       # rss需安装 hexo-generator-feed 插件
       # 具体参照https://github.com/hexojs/hexo-generator-feed
@@ -242,5 +242,5 @@ cdns:
         js: https://unpkg.com/@waline/client@v3/dist/waline.js
 
 # 主题色
-themeColor: pink
+themeColor: skyblue
 

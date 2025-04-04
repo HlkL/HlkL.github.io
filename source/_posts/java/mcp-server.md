@@ -11,7 +11,7 @@ tags:
 
 **官方文档：https://modelcontextprotocol.io/quickstart/server**
 
-**使用spring-ai实现mcp-server服务，项目搭建：https://start.spring.io添加主要依赖**
+**使用spring-ai实现mcp-server服务，项目搭建：https://start.spring.io  添加主要依赖**
 
 ```groovy
 implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -133,4 +133,5 @@ public ToolCallbackProvider weatherTools(TaskService taskService) {
 
 **使用示例：**
 
-<video src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/123.mov"></video>
+<iframe src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/123.mov" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+

@@ -1,10 +1,10 @@
 ---
 title: 使用spring-ai实现mcp-server
-date: 2025-04-04 23:57:49
 tags:
-
   - java
   - ai
+abbrlink: 58bc53c1
+date: 2025-04-04 23:57:49
 ---
 
 
@@ -93,7 +93,6 @@ public class TaskService {
 }
 ```
 
-key="pJyf3OUtX4Fet7gGl0chCeexM7OK5p"
 
 **MCP服务注册**
 

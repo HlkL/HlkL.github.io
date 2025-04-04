@@ -133,5 +133,5 @@ public ToolCallbackProvider weatherTools(TaskService taskService) {
 
 **使用示例：**
 
-<iframe src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/123.mov" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+<img src="https://hougen.oss-cn-guangzhou.aliyuncs.com/blog-img/123.gif" style="zoom: 25%;" />
 
